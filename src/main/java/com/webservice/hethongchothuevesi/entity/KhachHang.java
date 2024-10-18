@@ -1,12 +1,14 @@
 package com.webservice.hethongchothuevesi.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -16,11 +18,17 @@ import java.time.LocalDate;
 @Table(name = "KhachHang")
 public class KhachHang {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idKhachHang")
     private Integer idKhachHang;
 
+    @Size(min = 6, message = "TENDANGNHAP_INVALID")
     @Column(name = "tenDangNhap")
     private String tenDangNhap;
+
+    @Size(min = 8, message = "MATKHAU_INVALID")
+    @Column(name = "matKhau")
+    private String matKhau;
 
     @Column(name = "anhDaiDien")
     private String anhDaiDien;
@@ -49,6 +57,6 @@ public class KhachHang {
     @Column(name = "trangThai")
     private String trangThai;
 
-    @Column(name = "trangThaiXoa")
-    private Byte trangThaiXoa;
+    @Column(name = "ngayXoa")
+    private LocalDateTime ngayXoa;
 }

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.annotation.processing.Generated;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -16,6 +17,7 @@ import javax.annotation.processing.Generated;
 @Table(name = "YeuCauHoTro")
 public class YeuCauHoTro {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idYeuCauHoTro")
     private Integer idYeuCauHoTro;
 
@@ -43,6 +45,6 @@ public class YeuCauHoTro {
     @Column(name = "trangThai")
     private String trangThai;
 
-    @Column(name = "trangThaiXoa")
-    private Byte trangThaiXoa;
+    @Column(name = "ngayXoa")
+    private LocalDateTime ngayXoa;
 }

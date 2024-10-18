@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
 @Table(name = "DanhMucDichVu")
 public class DanhMucDichVu {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idDanhMucDichVu")
     private Integer idDanhMucDichVu;
 
@@ -28,6 +30,6 @@ public class DanhMucDichVu {
     @Column(name = "giaDuKien")
     private BigDecimal giaDuKien;
 
-    @Column(name = "trangThaiXoa")
-    private Byte trangThaiXoa;
+    @Column(name = "ngayXoa")
+    private LocalDateTime ngayXoa;
 }

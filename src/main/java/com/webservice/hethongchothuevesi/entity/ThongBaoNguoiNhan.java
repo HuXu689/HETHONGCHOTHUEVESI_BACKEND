@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @Table(name = "ThongBao_NguoiNhan")
 public class ThongBaoNguoiNhan {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idThongBaoNguoiNhan")
     private Integer idThongBaoNguoiNhan;
 
@@ -31,6 +32,6 @@ public class ThongBaoNguoiNhan {
     @Column(name = "thoiGianDoc")
     private LocalDateTime thoiGianDoc;
 
-    @Column(name = "trangThaiXoa")
-    private Byte trangThaiXoa;
+    @Column(name = "ngayXoa")
+    private LocalDateTime ngayXoa;
 }

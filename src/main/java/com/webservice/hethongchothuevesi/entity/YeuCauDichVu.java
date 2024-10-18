@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -17,6 +18,7 @@ import java.time.LocalDate;
 @Table(name = "YeuCauDichVu")
 public class YeuCauDichVu {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idYeuCauDichVu")
     private Integer idYeuCauDichVu;
 
@@ -50,6 +52,6 @@ public class YeuCauDichVu {
     @Column(name = "trangThai")
     private String trangThai;
 
-    @Column(name = "trangThaiXoa")
-    private Byte trangThaiXoa;
+    @Column(name = "ngayXoa")
+    private LocalDateTime ngayXoa;
 }
