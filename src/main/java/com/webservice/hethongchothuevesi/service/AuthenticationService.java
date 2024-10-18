@@ -23,6 +23,7 @@ public class AuthenticationService {
         var khachHang = khachHangRepository.findByTenDangNhap(request.getTenDangNhap()).orElseThrow(()-> new AppException(ErrorCode.KHACHHANG_NOTEXISTED));
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(7);
+
         return passwordEncoder.matches(request.getMatKhau(), khachHang.getMatKhau());
     }
 
