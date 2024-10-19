@@ -12,13 +12,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class KhachHangUpdateRequest {
-    String anhDaiDien;
-    String gioiTinh;
-    LocalDate ngaySinh;
-    String email;
-    String soDienThoai;
-    String hoTen;
-    String soCccd;
-    String diaChi;
+public class KhachHangChangePasswordRequest {
+    @Size(min = 8, message = "MATKHAU_INVALID")
+    String matKhauCu;
+    @Size(min = 8, message = "MATKHAU_INVALID")
+    String matKhauMoi;
 }
