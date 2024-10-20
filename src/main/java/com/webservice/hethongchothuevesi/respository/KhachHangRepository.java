@@ -14,6 +14,9 @@ public interface KhachHangRepository extends JpaRepository<KhachHang, Integer> {
     // Tìm tất cả các khách hàng chưa bị xóa mềm (ngayXoa = null)
     List<KhachHang> findByNgayXoaIsNull();
 
+    // Tìm khách hàng theo idKhachHang
+    Optional<KhachHang> findByIdKhachHang(int idKhachHang);
+
     // Tìm khách hàng theo idKhachHang và chưa bị xóa mềm
     Optional<KhachHang> findByIdKhachHangAndNgayXoaIsNull(int idKhachHang);
 

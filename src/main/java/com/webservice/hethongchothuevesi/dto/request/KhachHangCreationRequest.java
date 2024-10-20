@@ -13,7 +13,9 @@ import java.time.LocalDate;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class KhachHangCreationRequest {
+    @Size(min = 6, message = "TENDANGNHAP_INVALID")
     private String tenDangNhap;
+    @Size(min = 8, message = "MATKHAU_INVALID")
     private String matKhau;
     private String anhDaiDien;
     private String gioiTinh;

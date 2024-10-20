@@ -8,8 +8,10 @@ public enum ErrorCode {
     TENDANGNHAP_EXISTED(1001, "Tên đăng nhập đã tồn tại"),
     TENDANGNHAP_INVALID(1002, "Tên đăng nhập ít nhất 6 ký tự"),
     MATKHAU_INVALID(1003, "Mật khẩu ít nhất 8 ký tự"),
-    KHACHHANG_NOTEXISTED(1004, "Không tìm thấy khách hàng"),
-    KHACHHANG_NOT_DELETED(1005, "Khách hàng chưa được xóa")
+    KHACHHANG_NOT_EXISTED(1004, "Không tìm thấy khách hàng"),
+    KHACHHANG_ID_NOT_EXISTED(1004, "Không tìm thấy ID khách hàng"),
+    KHACHHANG_NOT_DELETED(1005, "Khách hàng chưa được xóa"),
+    UN_AUTHENTICATED(1006, "Sai mật khẩu")
     ;
     private final int code;
     private final String message;
