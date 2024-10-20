@@ -1,5 +1,6 @@
 package com.webservice.hethongchothuevesi.service;
 
+import com.webservice.hethongchothuevesi.dto.request.KhachHangChangePasswordRequest;
 import com.webservice.hethongchothuevesi.dto.request.KhachHangCreationRequest;
 import com.webservice.hethongchothuevesi.dto.request.KhachHangUpdateRequest;
 import com.webservice.hethongchothuevesi.dto.response.KhachHangResponse;
@@ -11,12 +12,9 @@ import com.webservice.hethongchothuevesi.respository.KhachHangRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -28,6 +26,7 @@ import java.util.List;
 public class KhachHangService {
     KhachHangRepository khachHangRepository;
     KhachHangMapper khachHangMapper;
+    AuthenticationService authenticationService;
 
     /*
      * @author: XuanHuynh
@@ -41,9 +40,7 @@ public class KhachHangService {
         }
 
         KhachHang khachHang = khachHangMapper.toKhachHang(request);
-//
-//        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(7);
-//        khachHang.setMatKhau(passwordEncoder.encode(request.getMatKhau()));
+        khachHang.setMatKhau(authenticationService.encryption(request.getMatKhau()));
 
         return khachHangMapper.toKhachHangResponse(khachHangRepository.save(khachHang));
     }
@@ -58,6 +55,21 @@ public class KhachHangService {
         KhachHang khachHang = findKhachHangById(id);
         khachHangMapper.updateKhachHang(khachHang, request);
         return khachHangMapper.toKhachHangResponse(khachHangRepository.save(khachHang));
+    }
+
+    /*
+     * @author: XuanHuynh
+     * @since: 10/14/2024 12:27 PM
+     * description: Thay đổi mật khẩu khách hàng
+     * update:
+     */
+    public boolean changePasswordRequest(int id, KhachHangChangePasswordRequest request) {
+        KhachHang khachHang = findKhachHangById(id);
+        if (authenticationService.checkKhachHangId(id, request.getMatKhauCu())) {
+            khachHang.setMatKhau(authenticationService.encryption(request.getMatKhauMoi()));
+            return true;
+        }
+        return false;
     }
 
     /*
@@ -131,7 +143,7 @@ public class KhachHangService {
     public KhachHangResponse getSoftRequestById(int id) {
         return khachHangMapper.toKhachHangResponse(
                 khachHangRepository.findByIdKhachHangAndNgayXoaIsNull(id)
-                        .orElseThrow(() -> new AppException(ErrorCode.KHACHHANG_NOTEXISTED)));
+                        .orElseThrow(() -> new AppException(ErrorCode.KHACHHANG_NOT_EXISTED)));
     }
 
     /*
@@ -163,7 +175,7 @@ public class KhachHangService {
      */
     private KhachHang findKhachHangById(int id) {
         return khachHangRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.KHACHHANG_NOTEXISTED));
+                .orElseThrow(() -> new AppException(ErrorCode.KHACHHANG_NOT_EXISTED));
     }
 
     /*
@@ -187,11 +199,11 @@ public class KhachHangService {
     }
 
     /*
-    * @author: XuanHuynh
-    * @since: 16/10/2024 10:12 PM
-    * description: Phân trang gồm số trang, số lượng
-    * update:
-    */
+     * @author: XuanHuynh
+     * @since: 16/10/2024 10:12 PM
+     * description: Phân trang gồm số trang, số lượng
+     * update:
+     */
     public Page<KhachHangResponse> getPhanTrangKhachHang(int trang, int sl) {
         Pageable pageable = PageRequest.of(trang, sl);  // Tạo đối tượng Pageable với trang và số lượng phần tử
 
