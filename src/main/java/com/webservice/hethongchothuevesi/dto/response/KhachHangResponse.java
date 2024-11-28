@@ -1,10 +1,9 @@
 package com.webservice.hethongchothuevesi.dto.response;
 
-import jakarta.validation.constraints.Size;
+import java.time.LocalDate;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -13,15 +12,16 @@ import java.time.LocalDate;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class KhachHangResponse {
-    Integer idKhachHang;
-    String tenDangNhap;
-    String anhDaiDien;
-    String gioiTinh;
-    LocalDate ngaySinh;
-    String email;
-    String soDienThoai;
-    String hoTen;
-    String soCccd;
-    String diaChi;
-    String trangThai;
+	Integer idKhachHang;
+	String tenDangNhap;
+	String anhDaiDien;
+	String gioiTinh;
+	LocalDate ngaySinh;
+	String email;
+	String soDienThoai;
+	String hoTen;
+	String soCccd;
+	String diaChi;
+	String trangThai;
+	String role;
 }

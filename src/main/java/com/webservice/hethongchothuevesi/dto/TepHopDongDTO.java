@@ -10,8 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TepHopDongDTO {
-    private Integer idTepHopDong;
-    private Integer idHopDong;
-    private String loaiTep;
-    private String tepDinhKem;
+	private Integer idTepHopDong;
+	private Integer idHopDong;
+	private String loaiTep;
+	private String tepDinhKem;
 }

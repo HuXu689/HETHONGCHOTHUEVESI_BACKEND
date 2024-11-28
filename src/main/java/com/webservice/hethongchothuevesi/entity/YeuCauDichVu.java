@@ -1,14 +1,14 @@
 package com.webservice.hethongchothuevesi.entity;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -17,41 +17,41 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "YeuCauDichVu")
 public class YeuCauDichVu {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idYeuCauDichVu")
-    private Integer idYeuCauDichVu;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "idYeuCauDichVu")
+	private Integer idYeuCauDichVu;
 
-    @Column(name = "idKhachHang")
-    private Integer idKhachHang;
+	@Column(name = "idKhachHang")
+	private Integer idKhachHang;
 
-    @Column(name = "idDanhMucDichVu")
-    private Integer idDanhMucDichVu;
+	@Column(name = "idDanhMucDichVu")
+	private Integer idDanhMucDichVu;
 
-    @Column(name = "diaDiem")
-    private String diaDiem;
+	@Column(name = "diaDiem")
+	private String diaDiem;
 
-    @Column(name = "soLuongVeSi")
-    private Integer soLuongVeSi;
+	@Column(name = "soLuongVeSi")
+	private Integer soLuongVeSi;
 
-    @Column(name = "ngayBatDau")
-    private LocalDate ngayBatDau;
+	@Column(name = "ngayBatDau")
+	private LocalDate ngayBatDau;
 
-    @Column(name = "ngayKetThuc")
-    private LocalDate ngayKetThuc;
+	@Column(name = "ngayKetThuc")
+	private LocalDate ngayKetThuc;
 
-    @Column(name = "giaTienDuKien")
-    private BigDecimal giaTienDuKien;
+	@Column(name = "giaTienDuKien")
+	private BigDecimal giaTienDuKien;
 
-    @Column(name = "ghiChu")
-    private String ghiChu;
+	@Column(name = "ghiChu")
+	private String ghiChu;
 
-    @Column(name = "noiDungTraLoi")
-    private String noiDungTraLoi;
+	@Column(name = "noiDungTraLoi")
+	private String noiDungTraLoi;
 
-    @Column(name = "trangThai")
-    private String trangThai;
+	@Column(name = "trangThai")
+	private String trangThai;
 
-    @Column(name = "ngayXoa")
-    private LocalDateTime ngayXoa;
+	@Column(name = "ngayXoa")
+	private LocalDateTime ngayXoa;
 }
