@@ -1,5 +1,7 @@
 package com.webservice.hethongchothuevesi.controller;
 
+import java.text.ParseException;
+
 import com.nimbusds.jose.JOSEException;
 import com.webservice.hethongchothuevesi.dto.request.ApiResponse;
 import com.webservice.hethongchothuevesi.dto.request.AuthenticationRequest;
@@ -16,29 +18,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.text.ParseException;
-
 @RestController
 @RequestMapping("/Auth")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthenticationController {
-    AuthenticationService authenticationService;
+	AuthenticationService authenticationService;
 
-    @PostMapping("/LoginKhachHang")
-    public ApiResponse<AuthenticationResponse> checkKhachHang(@RequestBody AuthenticationRequest request, PushBuilder pushBuilder) {
-        var result = authenticationService.checkKhachHang(request);
-        return ApiResponse.<AuthenticationResponse>builder()
-                .result(result)
-                .build();
-    }
+	@PostMapping("/LoginKhachHang")
+	public ApiResponse<AuthenticationResponse> checkKhachHang(
+			@RequestBody AuthenticationRequest request, PushBuilder pushBuilder) {
+		var result = authenticationService.checkKhachHang(request);
+		return ApiResponse.<AuthenticationResponse>builder().result(result).build();
+	}
 
-    @PostMapping("/Introspect")
-    public ApiResponse<IntrospectResponse> introspect(@RequestBody IntrospectRequest request, PushBuilder pushBuilder)
-            throws ParseException, JOSEException {
-        var result = authenticationService.introspect(request);
-        return ApiResponse.<IntrospectResponse>builder()
-                .result(result)
-                .build();
-    }
+	@PostMapping("/Introspect")
+	public ApiResponse<IntrospectResponse> introspect(@RequestBody IntrospectRequest request, PushBuilder pushBuilder)
+			throws ParseException, JOSEException {
+		var result = authenticationService.introspect(request);
+		return ApiResponse.<IntrospectResponse>builder().result(result).build();
+	}
 }

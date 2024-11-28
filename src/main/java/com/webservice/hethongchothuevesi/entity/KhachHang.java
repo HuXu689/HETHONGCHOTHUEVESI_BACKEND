@@ -1,62 +1,65 @@
 package com.webservice.hethongchothuevesi.entity;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "KhachHang")
 public class KhachHang {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idKhachHang")
-    private Integer idKhachHang;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "idKhachHang")
+	Integer idKhachHang;
 
-    @Size(min = 6, message = "TENDANGNHAP_INVALID")
-    @Column(name = "tenDangNhap")
-    private String tenDangNhap;
+	@Size(min = 6, message = "TENDANGNHAP_INVALID")
+	@Column(name = "tenDangNhap", nullable = false)
+	String tenDangNhap;
 
-    @Size(min = 8, message = "MATKHAU_INVALID")
-    @Column(name = "matKhau")
-    private String matKhau;
+	@Size(min = 8, message = "MATKHAU_INVALID")
+	@Column(name = "matKhau", nullable = false)
+	String matKhau;
 
-    @Column(name = "anhDaiDien")
-    private String anhDaiDien;
+	@Column(name = "anhDaiDien")
+	String anhDaiDien;
 
-    @Column(name = "gioiTinh")
-    private String gioiTinh;
+	@Column(name = "gioiTinh")
+	String gioiTinh;
 
-    @Column(name = "ngaySinh")
-    private LocalDate ngaySinh;
+	@Column(name = "ngaySinh")
+	LocalDate ngaySinh;
 
-    @Column(name = "email")
-    private String email;
+	@Column(name = "email")
+	String email;
 
-    @Column(name = "soDienThoai")
-    private String soDienThoai;
+	@Column(name = "soDienThoai")
+	String soDienThoai;
 
-    @Column(name = "hoTen")
-    private String hoTen;
+	@Column(name = "hoTen")
+	String hoTen;
 
-    @Column(name = "soCCCD")
-    private String soCccd;
+	@Column(name = "soCCCD")
+	String soCccd;
 
-    @Column(name = "diaChi")
-    private String diaChi;
+	@Column(name = "diaChi")
+	String diaChi;
 
-    @Column(name = "trangThai")
-    private String trangThai;
+	@Column(name = "trangThai")
+	String trangThai;
 
-    @Column(name = "ngayXoa")
-    private LocalDateTime ngayXoa;
+	@Column(name = "ngayXoa")
+	LocalDateTime ngayXoa;
+
+	@Column(name = "role")
+	String role;
 }
