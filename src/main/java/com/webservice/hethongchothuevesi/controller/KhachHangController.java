@@ -19,11 +19,11 @@ public class KhachHangController {
     private KhachHangService khachHangService;
 
     /*
-    * @author: XuanHuynh
-    * @since: 13/10/2024 12:07 SA
-    * description: Tạo tài khoản khách hàng mới
-    * update:
-    */
+     * @author: XuanHuynh
+     * @since: 13/10/2024 12:07 SA
+     * description: Tạo tài khoản khách hàng mới
+     * update:
+     */
     @PostMapping("/Create")
     ApiResponse createKhachHang(@RequestBody @Valid KhachHangCreationRequest request) {
         ApiResponse apiResponse = new ApiResponse();
@@ -34,11 +34,11 @@ public class KhachHangController {
     }
 
     /*
-    * @author: XuanHuynh
-    * @since: 10/14/2024 12:33 PM
-    * description: Cập nhật thông tin khách hàng theo ID
-    * update:
-    */
+     * @author: XuanHuynh
+     * @since: 10/14/2024 12:33 PM
+     * description: Cập nhật thông tin khách hàng theo ID
+     * update:
+     */
     @PutMapping("/Update/{id}")
     ApiResponse updateKhachHang(@PathVariable("id") int id, @RequestBody @Valid KhachHangUpdateRequest request) {
         ApiResponse apiResponse = new ApiResponse();
@@ -49,11 +49,11 @@ public class KhachHangController {
     }
 
     /*
-    * @author: XuanHuynh
-    * @since: 10/14/2024 6:46 PM
-    * description: Xóa mềm dữ liệu khách hàng theo ID
-    * update:
-    */
+     * @author: XuanHuynh
+     * @since: 10/14/2024 6:46 PM
+     * description: Xóa mềm dữ liệu khách hàng theo ID
+     * update:
+     */
     @PatchMapping("/Delete/{id}/SoftDelete")
     boolean deleteSoftKhachHang(@PathVariable("id") int id) {
         khachHangService.deleteSoftRequest(id);
@@ -61,11 +61,11 @@ public class KhachHangController {
     }
 
     /*
-    * @author: XuanHuynh
-    * @since: 10/14/2024 6:46 PM
-    * description: Xóa cứng dữ liệu khách hàng theo ID
-    * update:
-    */
+     * @author: XuanHuynh
+     * @since: 10/14/2024 6:46 PM
+     * description: Xóa cứng dữ liệu khách hàng theo ID
+     * update:
+     */
     @DeleteMapping("/Delete/{id}/HardDelete")
     boolean deleteHardKhachHang(@PathVariable("id") int id) {
         khachHangService.deleteRequest(id);
@@ -73,22 +73,22 @@ public class KhachHangController {
     }
 
     /*
-    * @author: XuanHuynh
-    * @since: 13/10/2024 12:07 SA
-    * description: Lấy dữ liệu của tất cả khách hàng
-    * update:
-    */
+     * @author: XuanHuynh
+     * @since: 13/10/2024 12:07 SA
+     * description: Lấy dữ liệu của tất cả khách hàng
+     * update:
+     */
     @GetMapping("/GetAll")
     List<KhachHangResponse> getAllKhachHang() {
         return khachHangService.getAllRequest();
     }
 
     /*
-    * @author: XuanHuynh
-    * @since: 13/10/2024 12:08 SA
-    * description: Lấy dữ liệu của khách hàng theo ID
-    * update:
-    */
+     * @author: XuanHuynh
+     * @since: 13/10/2024 12:08 SA
+     * description: Lấy dữ liệu của khách hàng theo ID
+     * update:
+     */
     @GetMapping("/GetById/{id}")
     KhachHangResponse getKhachHangById(@PathVariable("id") int id) {
         return khachHangService.getRequestById(id);
@@ -174,5 +174,4 @@ public class KhachHangController {
     Page<KhachHangResponse> getPagedKhachHang(@RequestParam("trang") int trang, @RequestParam("sl") int sl) {
         return khachHangService.getPhanTrangKhachHang(trang, sl);
     }
-
 }

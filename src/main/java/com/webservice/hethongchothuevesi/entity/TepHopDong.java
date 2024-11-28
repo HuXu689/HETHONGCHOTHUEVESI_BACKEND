@@ -13,17 +13,17 @@ import lombok.Setter;
 @AllArgsConstructor
 @Table(name = "TepHopDong")
 public class TepHopDong {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idTepHopDong")
-    private Integer idTepHopDong;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "idTepHopDong")
+	private Integer idTepHopDong;
 
-    @Column(name = "idHopDong")
-    private Integer idHopDong;
+	@Column(name = "idHopDong")
+	private Integer idHopDong;
 
-    @Column(name = "loaiTep")
-    private String loaiTep;
+	@Column(name = "loaiTep")
+	private String loaiTep;
 
-    @Column(name = "tepDinhKem")
-    private String tepDinhKem;
+	@Column(name = "tepDinhKem")
+	private String tepDinhKem;
 }

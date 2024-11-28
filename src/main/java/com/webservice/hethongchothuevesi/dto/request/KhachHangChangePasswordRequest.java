@@ -4,8 +4,6 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,8 +11,9 @@ import java.time.LocalDate;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class KhachHangChangePasswordRequest {
-    @Size(min = 8, message = "MATKHAU_INVALID")
-    String matKhauCu;
-    @Size(min = 8, message = "MATKHAU_INVALID")
-    String matKhauMoi;
+	@Size(min = 8, message = "MATKHAU_INVALID")
+	String matKhauCu;
+
+	@Size(min = 8, message = "MATKHAU_INVALID")
+	String matKhauMoi;
 }

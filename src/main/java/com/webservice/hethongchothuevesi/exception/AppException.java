@@ -8,9 +8,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class AppException extends RuntimeException {
-    private ErrorCode errorCode;
-    public AppException(ErrorCode errorCode) {
-        super(errorCode.getMessage());
-        this.errorCode = errorCode;
-    }
+	private ErrorCode errorCode;
+
+	public AppException(ErrorCode errorCode) {
+		super(errorCode.getMessage());
+		this.errorCode = errorCode;
+	}
 }

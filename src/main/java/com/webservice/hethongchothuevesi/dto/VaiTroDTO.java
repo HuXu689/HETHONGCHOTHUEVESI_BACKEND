@@ -10,8 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VaiTroDTO {
-    private Integer idVaiTro;
-    private String tenVaiTro;
-    private String capBac;
-    private String moTa;
+	private Integer idVaiTro;
+	private String tenVaiTro;
+	private String capBac;
+	private String moTa;
 }

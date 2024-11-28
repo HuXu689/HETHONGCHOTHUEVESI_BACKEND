@@ -1,12 +1,12 @@
 package com.webservice.hethongchothuevesi.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -15,23 +15,23 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "ThongBao")
 public class ThongBao {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idThongBao")
-    private Integer idThongBao;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "idThongBao")
+	private Integer idThongBao;
 
-    @Column(name = "idNhanVien")
-    private Integer idNhanVien;
+	@Column(name = "idNhanVien")
+	private Integer idNhanVien;
 
-    @Column(name = "idDanhMucThongBao")
-    private Integer idDanhMucThongBao;
+	@Column(name = "idDanhMucThongBao")
+	private Integer idDanhMucThongBao;
 
-    @Column(name = "tieuDe")
-    private String tieuDe;
+	@Column(name = "tieuDe")
+	private String tieuDe;
 
-    @Column(name = "noiDung")
-    private String noiDung;
+	@Column(name = "noiDung")
+	private String noiDung;
 
-    @Column(name = "ngayXoa")
-    private LocalDateTime ngayXoa;
+	@Column(name = "ngayXoa")
+	private LocalDateTime ngayXoa;
 }

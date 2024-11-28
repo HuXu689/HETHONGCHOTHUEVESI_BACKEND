@@ -1,14 +1,14 @@
 package com.webservice.hethongchothuevesi.entity;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -17,59 +17,59 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "VeSi")
 public class VeSi {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idVeSi")
-    private Integer idVeSi;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "idVeSi")
+	private Integer idVeSi;
 
-    @Column(name = "tenDangNhap")
-    private String tenDangNhap;
+	@Column(name = "tenDangNhap")
+	private String tenDangNhap;
 
-    @Column(name = "matKhau")
-    private String matKhau;
+	@Column(name = "matKhau")
+	private String matKhau;
 
-    @Column(name = "anhDaiDien")
-    private String anhDaiDien;
+	@Column(name = "anhDaiDien")
+	private String anhDaiDien;
 
-    @Column(name = "hoTen")
-    private String hoTen;
+	@Column(name = "hoTen")
+	private String hoTen;
 
-    @Column(name = "gioiTinh")
-    private String gioiTinh;
+	@Column(name = "gioiTinh")
+	private String gioiTinh;
 
-    @Column(name = "ngaySinh")
-    private LocalDate ngaySinh;
+	@Column(name = "ngaySinh")
+	private LocalDate ngaySinh;
 
-    @Column(name = "diaChi")
-    private String diaChi;
+	@Column(name = "diaChi")
+	private String diaChi;
 
-    @Column(name = "soDienThoai")
-    private String soDienThoai;
+	@Column(name = "soDienThoai")
+	private String soDienThoai;
 
-    @Column(name = "email")
-    private String email;
+	@Column(name = "email")
+	private String email;
 
-    @Column(name = "kinhNghiem")
-    private Integer kinhNghiem;
+	@Column(name = "kinhNghiem")
+	private Integer kinhNghiem;
 
-    @Column(name = "thongTinDanhGiaChung")
-    private String thongTinDanhGiaChung;
+	@Column(name = "thongTinDanhGiaChung")
+	private String thongTinDanhGiaChung;
 
-    @Column(name = "ngayBatDauLam")
-    private LocalDate ngayBatDauLam;
+	@Column(name = "ngayBatDauLam")
+	private LocalDate ngayBatDauLam;
 
-    @Column(name = "capBac")
-    private String capBac;
+	@Column(name = "capBac")
+	private String capBac;
 
-    @Column(name = "ngayLenCap")
-    private LocalDate ngayLenCap;
+	@Column(name = "ngayLenCap")
+	private LocalDate ngayLenCap;
 
-    @Column(name = "luong")
-    private BigDecimal luong;
+	@Column(name = "luong")
+	private BigDecimal luong;
 
-    @Column(name = "trangThai")
-    private String trangThai;
+	@Column(name = "trangThai")
+	private String trangThai;
 
-    @Column(name = "ngayXoa")
-    private LocalDateTime ngayXoa;
+	@Column(name = "ngayXoa")
+	private LocalDateTime ngayXoa;
 }
