@@ -1,7 +1,5 @@
 package com.webservice.hethongchothuevesi.configuration;
 
-import javax.crypto.spec.SecretKeySpec;
-
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -19,42 +17,44 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import javax.crypto.spec.SecretKeySpec;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SecurityConfig {
 
-	// Danh sách API public
-	final String[] PUBLIC_ENDPOINTS = {"/KhachHang/Create", "/Auth/Introspect", "/Auth/LoginKhachHang"};
+    // Danh sách API public
+    final String[] PUBLIC_ENDPOINTS = {"/NguoiDung/Create", "/Auth/Introspect", "/Auth/LoginNguoiDung"};
 
-	@Value("${jwt.signerKey}")
-	String signerKey;
+    @Value("${jwt.signerKey}")
+    String signerKey;
 
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS)
-				.permitAll()
-				.anyRequest()
-				.authenticated());
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS)
+                .permitAll()
+                .anyRequest()
+                .authenticated());
 
-		httpSecurity.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder())));
+        httpSecurity.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder())));
 
-		httpSecurity.csrf(AbstractHttpConfigurer::disable);
+        httpSecurity.csrf(AbstractHttpConfigurer::disable);
 
-		return httpSecurity.build();
-	}
+        return httpSecurity.build();
+    }
 
-	@Bean
-	JwtDecoder jwtDecoder() {
-		SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HS512");
-		return NimbusJwtDecoder.withSecretKey(secretKeySpec)
-				.macAlgorithm(MacAlgorithm.HS512)
-				.build();
-	}
+    @Bean
+    JwtDecoder jwtDecoder() {
+        SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HS512");
+        return NimbusJwtDecoder.withSecretKey(secretKeySpec)
+                .macAlgorithm(MacAlgorithm.HS512)
+                .build();
+    }
 
-	@Bean
-	PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder(7);
-	}
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(7);
+    }
 }

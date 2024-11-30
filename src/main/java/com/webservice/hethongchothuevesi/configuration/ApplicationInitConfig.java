@@ -1,8 +1,8 @@
 package com.webservice.hethongchothuevesi.configuration;
 
-import com.webservice.hethongchothuevesi.entity.KhachHang;
+import com.webservice.hethongchothuevesi.entity.NguoiDung;
 import com.webservice.hethongchothuevesi.enums.Role;
-import com.webservice.hethongchothuevesi.respository.KhachHangRepository;
+import com.webservice.hethongchothuevesi.respository.NguoiDungRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -20,16 +20,16 @@ public class ApplicationInitConfig {
     PasswordEncoder passwordEncoder;
 
     @Bean
-    ApplicationRunner applicationRunner(KhachHangRepository khachHangRepository) {
+    ApplicationRunner applicationRunner(NguoiDungRepository nguoiDungRepository) {
         return args -> {
-            if (khachHangRepository.findByTenDangNhap("admin1234").isEmpty()) {
+            if (nguoiDungRepository.findByTenDangNhap("admin1234").isEmpty()) {
                 var role = Role.ADMIN.name();
-                KhachHang khachHang = KhachHang.builder()
+                NguoiDung nguoiDung = NguoiDung.builder()
                         .tenDangNhap("admin1234")
                         .matKhau(passwordEncoder.encode("admin1234"))
                         .role(role)
                         .build();
-                khachHangRepository.save(khachHang);
+                nguoiDungRepository.save(nguoiDung);
                 log.warn("Đã tạo tài khoản admin với tài khoản và mật khẩu là: admin1234");
             }
         };
