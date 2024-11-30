@@ -10,10 +10,10 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class KhachHangChangePasswordRequest {
-	@Size(min = 8, message = "MATKHAU_INVALID")
-	String matKhauCu;
+public class NguoiDungChangePasswordRequest {
+    @Size(min = 8, message = "MATKHAU_INVALID")
+    String matKhauCu;
 
-	@Size(min = 8, message = "MATKHAU_INVALID")
-	String matKhauMoi;
+    @Size(min = 8, message = "MATKHAU_INVALID")
+    String matKhauMoi;
 }

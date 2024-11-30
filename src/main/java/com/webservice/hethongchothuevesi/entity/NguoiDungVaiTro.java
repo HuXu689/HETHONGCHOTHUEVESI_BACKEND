@@ -14,18 +14,15 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "VaiTro")
-public class VaiTro {
+@Table(name = "NguoiDungVaiTro")
+public class NguoiDungVaiTro {
     @Id
+    @Column(name = "idNguoiDungVaiTro")
+    Integer idNguoiDungVaiTro;
+
+    @Column(name = "idNguoiDung")
+    Integer idNguoiDung;
+
     @Column(name = "idVaiTro")
     Integer idVaiTro;
-
-    @Column(name = "tenVaiTro")
-    String tenVaiTro;
-
-    @Column(name = "capBac")
-    String capBac;
-
-    @Column(name = "moTa")
-    String moTa;
 }

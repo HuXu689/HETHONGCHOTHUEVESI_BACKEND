@@ -1,75 +1,114 @@
 package com.webservice.hethongchothuevesi.entity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "VeSi")
 public class VeSi {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idVeSi")
-	private Integer idVeSi;
+    @Id
+    @Column(name = "idVeSi")
+    private Integer idVeSi;
 
-	@Column(name = "tenDangNhap")
-	private String tenDangNhap;
+    @Column(name = "kinhNghiem")
+    private Integer kinhNghiem;
 
-	@Column(name = "matKhau")
-	private String matKhau;
+    @Column(name = "thongTinDanhGiaChung")
+    private String thongTinDanhGiaChung;
 
-	@Column(name = "anhDaiDien")
-	private String anhDaiDien;
+    @Column(name = "ngayBatDauLam")
+    private LocalDate ngayBatDauLam;
 
-	@Column(name = "hoTen")
-	private String hoTen;
+    @Column(name = "capBac")
+    private String capBac;
 
-	@Column(name = "gioiTinh")
-	private String gioiTinh;
+    @Column(name = "ngayLenCap")
+    private LocalDate ngayLenCap;
 
-	@Column(name = "ngaySinh")
-	private LocalDate ngaySinh;
+    @Column(name = "luong")
+    private BigDecimal luong;
 
-	@Column(name = "diaChi")
-	private String diaChi;
+    @Column(name = "trangThai")
+    private String trangThai;
 
-	@Column(name = "soDienThoai")
-	private String soDienThoai;
+    @Column(name = "ngayXoa")
+    private LocalDateTime ngayXoa;
 
-	@Column(name = "email")
-	private String email;
+    public Integer getIdVeSi() {
+        return this.idVeSi;
+    }
 
-	@Column(name = "kinhNghiem")
-	private Integer kinhNghiem;
+    public void setIdVeSi(Integer idVeSi) {
+        this.idVeSi = idVeSi;
+    }
 
-	@Column(name = "thongTinDanhGiaChung")
-	private String thongTinDanhGiaChung;
+    public Integer getKinhNghiem() {
+        return this.kinhNghiem;
+    }
 
-	@Column(name = "ngayBatDauLam")
-	private LocalDate ngayBatDauLam;
+    public void setKinhNghiem(Integer kinhNghiem) {
+        this.kinhNghiem = kinhNghiem;
+    }
 
-	@Column(name = "capBac")
-	private String capBac;
+    public String getThongTinDanhGiaChung() {
+        return this.thongTinDanhGiaChung;
+    }
 
-	@Column(name = "ngayLenCap")
-	private LocalDate ngayLenCap;
+    public void setThongTinDanhGiaChung(String thongTinDanhGiaChung) {
+        this.thongTinDanhGiaChung = thongTinDanhGiaChung;
+    }
 
-	@Column(name = "luong")
-	private BigDecimal luong;
+    public LocalDate getNgayBatDauLam() {
+        return this.ngayBatDauLam;
+    }
 
-	@Column(name = "trangThai")
-	private String trangThai;
+    public void setNgayBatDauLam(LocalDate ngayBatDauLam) {
+        this.ngayBatDauLam = ngayBatDauLam;
+    }
 
-	@Column(name = "ngayXoa")
-	private LocalDateTime ngayXoa;
+    public String getCapBac() {
+        return this.capBac;
+    }
+
+    public void setCapBac(String capBac) {
+        this.capBac = capBac;
+    }
+
+    public LocalDate getNgayLenCap() {
+        return this.ngayLenCap;
+    }
+
+    public void setNgayLenCap(LocalDate ngayLenCap) {
+        this.ngayLenCap = ngayLenCap;
+    }
+
+    public BigDecimal getLuong() {
+        return this.luong;
+    }
+
+    public void setLuong(BigDecimal luong) {
+        this.luong = luong;
+    }
+
+    public String getTrangThai() {
+        return this.trangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
+    }
+
+    public LocalDateTime getNgayXoa() {
+        return this.ngayXoa;
+    }
+
+    public void setNgayXoa(LocalDateTime ngayXoa) {
+        this.ngayXoa = ngayXoa;
+    }
 }
