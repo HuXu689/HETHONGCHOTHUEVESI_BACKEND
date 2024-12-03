@@ -121,6 +121,22 @@ public class AuthenticationService {
         }
     }
 
+//    public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException {
+//        var token = request.getToken();
+//
+//        JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
+//
+//        SignedJWT signedJWT = SignedJWT.parse(token);
+//
+//        Date expityTime = signedJWT.getJWTClaimsSet().getExpirationTime();
+//
+//        var verified = signedJWT.verify(verifier);
+//
+//        return IntrospectResponse.builder()
+//                .valid(verified && expityTime.after(new Date()))
+//                .build();
+//    }
+
     public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException {
         var token = request.getToken();
         boolean isValid = true;
@@ -161,13 +177,11 @@ public class AuthenticationService {
     public void logout(LogoutRequest request) throws ParseException, JOSEException {
         var signToken = verifyToken(request.getToken());
 
-        String jit = signToken.getJWTClaimsSet().getIssuer();
+        String jit = signToken.getJWTClaimsSet().getJWTID();
         Date expiryTime = signToken.getJWTClaimsSet().getExpirationTime();
 
-        InvalidatedToken invalidatedToken = InvalidatedToken.builder()
-                .id(jit)
-                .expiryTime(expiryTime)
-                .build();
+        InvalidatedToken invalidatedToken =
+                InvalidatedToken.builder().id(jit).expiryTime(expiryTime).build();
 
         invalidatedTokenRepository.save(invalidatedToken);
     }

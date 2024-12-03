@@ -40,6 +40,7 @@ public class NguoiDungService {
      * description: Tạo tài khoản khách hàng mới
      * update:
      */
+    @PreAuthorize("hasRole('Admin')")
     public NguoiDungResponse createRequest(NguoiDungCreationRequest request) {
         if (nguoiDungRepository.existsByTenDangNhap(request.getTenDangNhap())) {
             throw new AppException(ErrorCode.TENDANGNHAP_EXISTED);
