@@ -25,8 +25,8 @@ public class NguoiDungController {
      * update:
      */
     @PostMapping("/Create")
-    ApiResponse createNguoiDung(@RequestBody @Valid NguoiDungCreationRequest request) {
-        ApiResponse apiResponse = new ApiResponse();
+    public ApiResponse<NguoiDungResponse> createNguoiDung(@RequestBody @Valid NguoiDungCreationRequest request) {
+        ApiResponse<NguoiDungResponse> apiResponse = new ApiResponse();
 
         apiResponse.setResult(NguoiDungService.createRequest(request));
 
@@ -40,8 +40,8 @@ public class NguoiDungController {
      * update:
      */
     @PutMapping("/Update/{id}")
-    ApiResponse updateNguoiDung(@PathVariable("id") int id, @RequestBody @Valid NguoiDungUpdateRequest request) {
-        ApiResponse apiResponse = new ApiResponse();
+    public ApiResponse<NguoiDungResponse> updateNguoiDung(@PathVariable("id") int id, @RequestBody @Valid NguoiDungUpdateRequest request) {
+        ApiResponse<NguoiDungResponse> apiResponse = new ApiResponse();
 
         apiResponse.setResult(NguoiDungService.updateRequest(id, request));
 
@@ -55,7 +55,7 @@ public class NguoiDungController {
      * update:
      */
     @PatchMapping("/Delete/{id}/SoftDelete")
-    boolean deleteSoftNguoiDung(@PathVariable("id") int id) {
+    public boolean deleteSoftNguoiDung(@PathVariable("id") int id) {
         NguoiDungService.deleteSoftRequest(id);
         return true;
     }
@@ -67,7 +67,7 @@ public class NguoiDungController {
      * update:
      */
     @DeleteMapping("/Delete/{id}/HardDelete")
-    boolean deleteHardNguoiDung(@PathVariable("id") int id) {
+    public boolean deleteHardNguoiDung(@PathVariable("id") int id) {
         NguoiDungService.deleteRequest(id);
         return true;
     }
@@ -79,7 +79,7 @@ public class NguoiDungController {
      * update:
      */
     @GetMapping("/GetAll")
-    List<NguoiDungResponse> getAllNguoiDung() {
+    public List<NguoiDungResponse> getAllNguoiDung() {
         return NguoiDungService.getAllRequest();
     }
 
@@ -90,7 +90,7 @@ public class NguoiDungController {
      * update:
      */
     @GetMapping("/GetById/{id}")
-    NguoiDungResponse getNguoiDungById(@PathVariable("id") int id) {
+    public NguoiDungResponse getNguoiDungById(@PathVariable("id") int id) {
         return NguoiDungService.getRequestById(id);
     }
 
@@ -101,8 +101,8 @@ public class NguoiDungController {
      * update:
      */
     @PatchMapping("/Restore/{id}")
-    ApiResponse restoreNguoiDung(@PathVariable("id") int id) {
-        ApiResponse apiResponse = new ApiResponse();
+    public ApiResponse<NguoiDungResponse> restoreNguoiDung(@PathVariable("id") int id) {
+        ApiResponse<NguoiDungResponse> apiResponse = new ApiResponse();
 
         apiResponse.setResult(NguoiDungService.restoreSoftDeletedRequest(id));
 
@@ -116,7 +116,7 @@ public class NguoiDungController {
      * update:
      */
     @GetMapping("/GetAll/Soft")
-    List<NguoiDungResponse> getAllSoftNguoiDung() {
+    public List<NguoiDungResponse> getAllSoftNguoiDung() {
         return NguoiDungService.getAllSoftRequest();
     }
 
@@ -127,7 +127,7 @@ public class NguoiDungController {
      * update:
      */
     @GetMapping("/GetById/Soft/{id}")
-    NguoiDungResponse getSoftNguoiDungById(@PathVariable("id") int id) {
+    public NguoiDungResponse getSoftNguoiDungById(@PathVariable("id") int id) {
         return NguoiDungService.getSoftRequestById(id);
     }
 
@@ -138,7 +138,7 @@ public class NguoiDungController {
      * update:
      */
     @GetMapping("/Search")
-    List<NguoiDungResponse> searchNguoiDung(@RequestParam("keyword") String keyword) {
+    public List<NguoiDungResponse> searchNguoiDung(@RequestParam("keyword") String keyword) {
         return NguoiDungService.searchNguoiDung(keyword);
     }
 
@@ -149,7 +149,7 @@ public class NguoiDungController {
      * update:
      */
     @GetMapping("/CountAll")
-    long countAllNguoiDung() {
+    public long countAllNguoiDung() {
         return NguoiDungService.countAllNguoiDung();
     }
 
@@ -160,7 +160,7 @@ public class NguoiDungController {
      * update:
      */
     @GetMapping("/CountSoft")
-    long countSoftNguoiDung() {
+    public long countSoftNguoiDung() {
         return NguoiDungService.countSoftNguoiDung();
     }
 
@@ -171,7 +171,7 @@ public class NguoiDungController {
      * update:
      */
     @GetMapping("/GetPaged")
-    Page<NguoiDungResponse> getPagedNguoiDung(@RequestParam("trang") int trang, @RequestParam("sl") int sl) {
-        return NguoiDungService.getPhanTrangNguoiDung(trang, sl);
+    public Page<NguoiDungResponse> getPagedNguoiDung(@RequestParam("trang") int trang, @RequestParam("sl") int sl) {
+        return NguoiDungService.getPhanTrangNguoiDung(trang - 1, sl);
     }
 }

@@ -59,7 +59,4 @@ public class NguoiDung {
 
     @Column(name = "ngayXoa")
     LocalDateTime ngayXoa;
-
-    @Column(name = "role")
-    String role;
 }
