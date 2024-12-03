@@ -5,22 +5,26 @@ import com.webservice.hethongchothuevesi.dto.request.NguoiDungCreationRequest;
 import com.webservice.hethongchothuevesi.dto.request.NguoiDungUpdateRequest;
 import com.webservice.hethongchothuevesi.dto.response.NguoiDungResponse;
 import com.webservice.hethongchothuevesi.entity.NguoiDung;
-import com.webservice.hethongchothuevesi.enums.Role;
+import com.webservice.hethongchothuevesi.entity.NguoiDungVaiTro;
 import com.webservice.hethongchothuevesi.exception.AppException;
 import com.webservice.hethongchothuevesi.exception.ErrorCode;
 import com.webservice.hethongchothuevesi.mapper.NguoiDungMapper;
 import com.webservice.hethongchothuevesi.respository.NguoiDungRepository;
+import com.webservice.hethongchothuevesi.respository.NguoiDungVaiTroRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -28,6 +32,7 @@ public class NguoiDungService {
     NguoiDungRepository nguoiDungRepository;
     NguoiDungMapper nguoiDungMapper;
     AuthenticationService authenticationService;
+    NguoiDungVaiTroRepository nguoiDungVaiTroRepository;
 
     /*
      * @author: XuanHuynh
@@ -42,18 +47,23 @@ public class NguoiDungService {
 
         NguoiDung nguoiDung = nguoiDungMapper.toNguoiDung(request);
         nguoiDung.setMatKhau(authenticationService.encryption(request.getMatKhau()));
+        nguoiDung = nguoiDungRepository.save(nguoiDung);
+        NguoiDungVaiTro nguoiDungVaiTro = NguoiDungVaiTro.builder()
+                .idNguoiDung(nguoiDung.getIdNguoiDung())
+                .idVaiTro(1)
+                .build();
 
-        nguoiDung.setRole(Role.USER.name());
-
+        nguoiDungVaiTroRepository.save(nguoiDungVaiTro);
         return nguoiDungMapper.toNguoiDungResponse(nguoiDungRepository.save(nguoiDung));
     }
 
     /*
      * @author: XuanHuynh
      * @since: 10/14/2024 12:27 PM
-     * description: Cập nhật thông tin khách hàng
+     * description: Cập nhật thông tin người dùng
      * update:
      */
+    @PreAuthorize("hasRole('Admin') or #id == authentication.principal.id")
     public NguoiDungResponse updateRequest(int id, NguoiDungUpdateRequest request) {
         NguoiDung nguoiDung = findNguoiDungById(id);
         nguoiDungMapper.updateNguoiDung(nguoiDung, request);
@@ -63,9 +73,10 @@ public class NguoiDungService {
     /*
      * @author: XuanHuynh
      * @since: 10/14/2024 12:27 PM
-     * description: Thay đổi mật khẩu khách hàng
+     * description: Thay đổi mật khẩu người dùng
      * update:
      */
+    @PreAuthorize("hasRole('Admin') or #id == authentication.principal.id")
     public boolean changePasswordRequest(int id, NguoiDungChangePasswordRequest request) {
         NguoiDung nguoiDung = findNguoiDungById(id);
         if (authenticationService.checkNguoiDungId(id, request.getMatKhauCu())) {
@@ -78,7 +89,7 @@ public class NguoiDungService {
     /*
      * @author: XuanHuynh
      * @since: 10/14/2024 12:27 PM
-     * description: Xóa mềm khách hàng
+     * description: Xóa mềm người dùng
      * update:
      */
     public void deleteSoftRequest(int id) {
@@ -90,7 +101,7 @@ public class NguoiDungService {
     /*
      * @author: XuanHuynh
      * @since: 10/14/2024 12:27 PM
-     * description: Xóa vĩnh viễn khách hàng
+     * description: Xóa vĩnh viễn người dùng
      * update:
      */
     public void deleteRequest(int id) {
@@ -104,7 +115,7 @@ public class NguoiDungService {
     /*
      * @author: XuanHuynh
      * @since: 16/10/2024 1:05 AM
-     * description: Khôi phục khách hàng đã xóa mềm
+     * description: Khôi phục người dùng đã xóa mềm
      * update:
      */
     public NguoiDungResponse restoreSoftDeletedRequest(int id) {
@@ -120,9 +131,10 @@ public class NguoiDungService {
     /*
      * @author: XuanHuynh
      * @since: 10/14/2024 6:56 PM
-     * description: Lấy dữ liệu của tất cả khách hàng chưa bị xóa mềm
+     * description: Lấy dữ liệu của tất cả người dùng chưa bị xóa mềm
      * update:
      */
+    @PreAuthorize("hasRole('Admin')")
     public List<NguoiDungResponse> getAllSoftRequest() {
         return nguoiDungMapper.toNguoiDungResponse(nguoiDungRepository.findByNgayXoaIsNull());
     }
@@ -130,17 +142,24 @@ public class NguoiDungService {
     /*
      * @author: XuanHuynh
      * @since: 13/10/2024 12:07 SA
-     * description: Lấy dữ liệu của tất cả khách hàng
+     * description: Lấy dữ liệu của tất cả người dùng
      * update:
      */
+    @PreAuthorize("hasRole('Admin')")
     public List<NguoiDungResponse> getAllRequest() {
+        /*
+         * Liệt kê danh sách vai trò của người dùng đang login
+         * var authentication = SecurityContextHolder.getContext().getAuthentication();
+         * log.info("Tên đăng nhập: {}", authentication.getName());
+         * authentication.getAuthorities().forEach(grantedAuthority -> log.info("Vai trò: {}", grantedAuthority.getAuthority()));
+         */
         return nguoiDungMapper.toNguoiDungResponse(nguoiDungRepository.findAll());
     }
 
     /*
      * @author: XuanHuynh
      * @since: 13/10/2024 12:08 SA
-     * description: Lấy dữ liệu của khách hàng theo ID chưa bị xóa mềm
+     * description: Lấy dữ liệu của người dùng theo ID chưa bị xóa mềm
      * update:
      */
     public NguoiDungResponse getSoftRequestById(int id) {
@@ -152,7 +171,7 @@ public class NguoiDungService {
     /*
      * @author: XuanHuynh
      * @since: 13/10/2024 12:08 SA
-     * description: Lấy dữ liệu của khách hàng theo ID
+     * description: Lấy dữ liệu của người dùng theo ID
      * update:
      */
     public NguoiDungResponse getRequestById(int id) {
@@ -162,7 +181,7 @@ public class NguoiDungService {
     /*
      * @author: XuanHuynh
      * @since: 16/10/2024 1:05 AM
-     * description: Tìm kiếm khách hàng theo tên đăng nhập hoặc email
+     * description: Tìm kiếm người dùng theo tên đăng nhập hoặc email
      * update:
      */
     public List<NguoiDungResponse> searchNguoiDung(String keyword) {
@@ -174,7 +193,7 @@ public class NguoiDungService {
     /*
      * @author: XuanHuynh
      * @since: 16/10/2024 1:05 AM
-     * description: Tìm khách hàng theo ID
+     * description: Tìm người dùng theo ID
      * update:
      */
     private NguoiDung findNguoiDungById(int id) {
@@ -184,7 +203,7 @@ public class NguoiDungService {
     /*
      * @author: XuanHuynh
      * @since: 16/10/2024 1:05 AM
-     * description: Đếm tổng số khách hàng
+     * description: Đếm tổng số người dùng
      * update:
      */
     public long countAllNguoiDung() {
@@ -194,7 +213,7 @@ public class NguoiDungService {
     /*
      * @author: XuanHuynh
      * @since: 16/10/2024 1:05 AM
-     * description: Đếm số khách hàng chưa bị xóa mềm
+     * description: Đếm số người dùng chưa bị xóa mềm
      * update:
      */
     public long countSoftNguoiDung() {
@@ -210,7 +229,7 @@ public class NguoiDungService {
     public Page<NguoiDungResponse> getPhanTrangNguoiDung(int trang, int sl) {
         Pageable pageable = PageRequest.of(trang, sl); // Tạo đối tượng Pageable với trang và số lượng phần tử
 
-        // Truy xuất danh sách khách hàng với phân trang
+        // Truy xuất danh sách người dùng với phân trang
         Page<NguoiDung> nguoiDungPage = nguoiDungRepository.findAll(pageable);
 
         // Ánh xạ từng đối tượng NguoiDung thành NguoiDungResponse

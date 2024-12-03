@@ -4,6 +4,7 @@ import com.nimbusds.jose.JOSEException;
 import com.webservice.hethongchothuevesi.dto.request.ApiResponse;
 import com.webservice.hethongchothuevesi.dto.request.AuthenticationRequest;
 import com.webservice.hethongchothuevesi.dto.request.IntrospectRequest;
+import com.webservice.hethongchothuevesi.dto.request.LogoutRequest;
 import com.webservice.hethongchothuevesi.dto.response.AuthenticationResponse;
 import com.webservice.hethongchothuevesi.dto.response.IntrospectResponse;
 import com.webservice.hethongchothuevesi.service.AuthenticationService;
@@ -37,5 +38,12 @@ public class AuthenticationController {
             throws ParseException, JOSEException {
         var result = authenticationService.introspect(request);
         return ApiResponse.<IntrospectResponse>builder().result(result).build();
+    }
+
+    @PostMapping("/LogoutNguoiDung")
+    public ApiResponse<Void> logout(@RequestBody LogoutRequest request)
+            throws ParseException, JOSEException {
+        authenticationService.logout(request);
+        return ApiResponse.<Void>builder().build();
     }
 }

@@ -1,5 +1,6 @@
 package com.webservice.hethongchothuevesi.dto.request;
 
+import com.webservice.hethongchothuevesi.validator.DobConstraint;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 public class NguoiDungUpdateRequest {
     String anhDaiDien;
     String gioiTinh;
+    @DobConstraint(min = 18)
     LocalDate ngaySinh;
     String email;
     String soDienThoai;

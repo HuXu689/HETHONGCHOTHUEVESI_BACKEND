@@ -7,12 +7,19 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import com.webservice.hethongchothuevesi.dto.request.AuthenticationRequest;
 import com.webservice.hethongchothuevesi.dto.request.IntrospectRequest;
+import com.webservice.hethongchothuevesi.dto.request.LogoutRequest;
 import com.webservice.hethongchothuevesi.dto.response.AuthenticationResponse;
 import com.webservice.hethongchothuevesi.dto.response.IntrospectResponse;
+import com.webservice.hethongchothuevesi.entity.InvalidatedToken;
 import com.webservice.hethongchothuevesi.entity.NguoiDung;
+import com.webservice.hethongchothuevesi.entity.NguoiDungVaiTro;
+import com.webservice.hethongchothuevesi.entity.VaiTro;
 import com.webservice.hethongchothuevesi.exception.AppException;
 import com.webservice.hethongchothuevesi.exception.ErrorCode;
+import com.webservice.hethongchothuevesi.respository.InvalidatedTokenRepository;
 import com.webservice.hethongchothuevesi.respository.NguoiDungRepository;
+import com.webservice.hethongchothuevesi.respository.NguoiDungVaiTroRepository;
+import com.webservice.hethongchothuevesi.respository.VaiTroRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -27,7 +34,9 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.List;
 import java.util.StringJoiner;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +44,9 @@ import java.util.StringJoiner;
 public class AuthenticationService {
     NguoiDungRepository nguoiDungRepository;
     PasswordEncoder passwordEncoder;
+    NguoiDungVaiTroRepository nguoiDungVaiTroRepository;
+    VaiTroRepository vaiTroRepository;
+    InvalidatedTokenRepository invalidatedTokenRepository;
 
     private static final Logger log = LoggerFactory.getLogger(AuthenticationService.class);
 
@@ -92,6 +104,7 @@ public class AuthenticationService {
                 .issuer("hethongchothuevesi.com")
                 .issueTime(new Date())
                 .expirationTime(new Date(Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()))
+                .jwtID(UUID.randomUUID().toString())
                 .claim("scope", buildScope(nguoiDung)) // Dòng thông tin thêm cho token tự tạo tùy ý
                 .build();
 
@@ -110,7 +123,62 @@ public class AuthenticationService {
 
     public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException {
         var token = request.getToken();
+        boolean isValid = true;
+        try {
+            verifyToken(token);
+        } catch (AppException e) {
+            isValid = false;
+        }
+        return IntrospectResponse.builder()
+                .valid(isValid)
+                .build();
+    }
 
+    public String buildScope(NguoiDung nguoiDung) {
+        StringJoiner stringJoiner = new StringJoiner(" ");
+
+        // Truy vấn các vai trò của người dùng từ bảng NguoiDungVaiTro
+        List<NguoiDungVaiTro> nguoiDungVaiTroList = nguoiDungVaiTroRepository.findByIdNguoiDung(nguoiDung.getIdNguoiDung());
+
+        // Duyệt qua danh sách và lấy tên vai trò từ bảng VaiTro
+        for (NguoiDungVaiTro nguoiDungVaiTro : nguoiDungVaiTroList) {
+            // Lấy thông tin về vai trò từ bảng VaiTro, có thể sử dụng repository hoặc cách khác tùy thuộc vào cách bạn cấu hình quan hệ
+            VaiTro vaiTro = vaiTroRepository.findById(nguoiDungVaiTro.getIdVaiTro())
+                    .orElseThrow(() -> new AppException(ErrorCode.VAITRO_NOT_EXISTED));
+
+            stringJoiner.add(vaiTro.getTenVaiTro());
+        }
+
+        return stringJoiner.toString();
+    }
+
+    /*
+     * @author: XuanHuynh
+     * @since: 3/12/2024 10:56 AM
+     * description: Logout token
+     * update:
+     */
+    public void logout(LogoutRequest request) throws ParseException, JOSEException {
+        var signToken = verifyToken(request.getToken());
+
+        String jit = signToken.getJWTClaimsSet().getIssuer();
+        Date expiryTime = signToken.getJWTClaimsSet().getExpirationTime();
+
+        InvalidatedToken invalidatedToken = InvalidatedToken.builder()
+                .id(jit)
+                .expiryTime(expiryTime)
+                .build();
+
+        invalidatedTokenRepository.save(invalidatedToken);
+    }
+
+    /*
+     * @author: XuanHuynh
+     * @since: 3/12/2024 10:56 AM
+     * description: Dịch nội dung token login
+     * update:
+     */
+    private SignedJWT verifyToken(String token) throws JOSEException, ParseException {
         JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
 
         SignedJWT signedJWT = SignedJWT.parse(token);
@@ -119,13 +187,10 @@ public class AuthenticationService {
 
         var verified = signedJWT.verify(verifier);
 
-        return IntrospectResponse.builder()
-                .valid(verified && expityTime.after(new Date()))
-                .build();
-    }
-
-    public String buildScope(NguoiDung nguoiDung) {
-        StringJoiner stringJoiner = new StringJoiner(" ");
-        return "admin";
+        if (!(verified && expityTime.after(new Date())))
+            throw new AppException(ErrorCode.UN_AUTHENTICATED);
+        if (invalidatedTokenRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID()))
+            throw new AppException(ErrorCode.UN_AUTHENTICATED);
+        return signedJWT;
     }
 }
