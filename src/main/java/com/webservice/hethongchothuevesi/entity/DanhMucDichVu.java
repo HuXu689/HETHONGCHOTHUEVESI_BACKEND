@@ -1,9 +1,6 @@
 package com.webservice.hethongchothuevesi.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -20,18 +17,19 @@ import java.time.LocalDateTime;
 @Table(name = "DanhMucDichVu")
 public class DanhMucDichVu {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idDanhMucDichVu")
-    private Integer idDanhMucDichVu;
+    Integer idDanhMucDichVu;
 
     @Column(name = "tenDichVu")
-    private String tenDichVu;
+    String tenDichVu;
 
     @Column(name = "moTa")
-    private String moTa;
+    String moTa;
 
     @Column(name = "giaDuKien")
-    private BigDecimal giaDuKien;
+    BigDecimal giaDuKien;
 
     @Column(name = "ngayXoa")
-    private LocalDateTime ngayXoa;
+    LocalDateTime ngayXoa;
 }

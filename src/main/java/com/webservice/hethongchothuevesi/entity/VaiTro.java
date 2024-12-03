@@ -1,9 +1,6 @@
 package com.webservice.hethongchothuevesi.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -17,6 +14,7 @@ import lombok.experimental.FieldDefaults;
 @Table(name = "VaiTro")
 public class VaiTro {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idVaiTro")
     Integer idVaiTro;
 
