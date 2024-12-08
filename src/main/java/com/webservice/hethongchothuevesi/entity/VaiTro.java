@@ -13,17 +13,17 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "VaiTro")
 public class VaiTro {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idVaiTro")
-    Integer idVaiTro;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "idVaiTro")
+	Integer idVaiTro;
 
-    @Column(name = "tenVaiTro")
-    String tenVaiTro;
+	@Column(name = "tenVaiTro")
+	String tenVaiTro;
 
-    @Column(name = "capBac")
-    String capBac;
+	@Column(name = "capBac")
+	String capBac;
 
-    @Column(name = "moTa")
-    String moTa;
+	@Column(name = "moTa")
+	String moTa;
 }

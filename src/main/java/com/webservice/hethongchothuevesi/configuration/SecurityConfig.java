@@ -16,6 +16,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -40,19 +46,43 @@ public class SecurityConfig {
      * update:
      */
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests(request ->
-                request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
-                        .anyRequest().authenticated());
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests(auth -> auth
+                        // Cấu hình cho Swagger UI và API docs, cho phép mọi người truy cập mà không cần xác thực
+                        .requestMatchers(HttpMethod.GET, "/HuXu/swagger-ui.html", "/HuXu/swagger-ui/**", "/HuXu/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        // Các API public khác
+                        .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
+                        // Các endpoint còn lại yêu cầu xác thực
+                        .anyRequest().authenticated()
+                )
+                .csrf(AbstractHttpConfigurer::disable)  // Tắt CSRF cho Swagger UI
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer
+                        .jwtAuthenticationConverter(jwtAuthenticationConverter())))  // Cấu hình JWT Authentication
 
-        httpSecurity.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer
-                        .decoder(customJwtDecoder)
-                        .jwtAuthenticationConverter(jwtAuthenticationConverter()))
-                .authenticationEntryPoint(new JwtAuthenticationEntryPoint()));
-        httpSecurity.csrf(AbstractHttpConfigurer::disable);
+                // Cấu hình CORS
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
-        return httpSecurity.build();
+        return http.build();
     }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+
+        // Cấu hình các thuộc tính CORS
+        corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000"));  // Cho phép frontend từ localhost:3000
+        corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));  // Các phương thức được phép
+        corsConfiguration.setAllowedHeaders(List.of("*"));  // Cho phép tất cả các headers
+        corsConfiguration.setAllowCredentials(true);  // Cho phép gửi thông tin xác thực (credentials)
+
+        // Đăng ký cấu hình CORS
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfiguration);
+
+        return source;
+    }
+
 
     /*
      * @author: XuanHuynh

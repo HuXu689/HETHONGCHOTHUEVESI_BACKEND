@@ -84,7 +84,7 @@ public class AuthenticationService {
 
         boolean authenticated = passwordEncoder.matches(request.getMatKhau(), nguoiDung.getMatKhau());
 
-        if (!authenticated) throw new AppException(ErrorCode.UN_AUTHENTICATED);
+        if (!authenticated) throw new AppException(ErrorCode.PASSERROR);
 
         var token = generateToken(nguoiDung);
         return AuthenticationResponse.builder().token(token).authenticated(true).build();
@@ -121,21 +121,21 @@ public class AuthenticationService {
         }
     }
 
-//    public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException {
-//        var token = request.getToken();
-//
-//        JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
-//
-//        SignedJWT signedJWT = SignedJWT.parse(token);
-//
-//        Date expityTime = signedJWT.getJWTClaimsSet().getExpirationTime();
-//
-//        var verified = signedJWT.verify(verifier);
-//
-//        return IntrospectResponse.builder()
-//                .valid(verified && expityTime.after(new Date()))
-//                .build();
-//    }
+    //    public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException {
+    //        var token = request.getToken();
+    //
+    //        JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
+    //
+    //        SignedJWT signedJWT = SignedJWT.parse(token);
+    //
+    //        Date expityTime = signedJWT.getJWTClaimsSet().getExpirationTime();
+    //
+    //        var verified = signedJWT.verify(verifier);
+    //
+    //        return IntrospectResponse.builder()
+    //                .valid(verified && expityTime.after(new Date()))
+    //                .build();
+    //    }
 
     public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException {
         var token = request.getToken();
@@ -145,21 +145,22 @@ public class AuthenticationService {
         } catch (AppException e) {
             isValid = false;
         }
-        return IntrospectResponse.builder()
-                .valid(isValid)
-                .build();
+        return IntrospectResponse.builder().valid(isValid).build();
     }
 
     public String buildScope(NguoiDung nguoiDung) {
         StringJoiner stringJoiner = new StringJoiner(" ");
 
         // Truy vấn các vai trò của người dùng từ bảng NguoiDungVaiTro
-        List<NguoiDungVaiTro> nguoiDungVaiTroList = nguoiDungVaiTroRepository.findByIdNguoiDung(nguoiDung.getIdNguoiDung());
+        List<NguoiDungVaiTro> nguoiDungVaiTroList =
+                nguoiDungVaiTroRepository.findByIdNguoiDung(nguoiDung.getIdNguoiDung());
 
         // Duyệt qua danh sách và lấy tên vai trò từ bảng VaiTro
         for (NguoiDungVaiTro nguoiDungVaiTro : nguoiDungVaiTroList) {
-            // Lấy thông tin về vai trò từ bảng VaiTro, có thể sử dụng repository hoặc cách khác tùy thuộc vào cách bạn cấu hình quan hệ
-            VaiTro vaiTro = vaiTroRepository.findById(nguoiDungVaiTro.getIdVaiTro())
+            // Lấy thông tin về vai trò từ bảng VaiTro, có thể sử dụng repository hoặc cách khác tùy thuộc vào cách bạn
+            // cấu hình quan hệ
+            VaiTro vaiTro = vaiTroRepository
+                    .findById(nguoiDungVaiTro.getIdVaiTro())
                     .orElseThrow(() -> new AppException(ErrorCode.VAITRO_NOT_EXISTED));
 
             stringJoiner.add(vaiTro.getTenVaiTro());
@@ -201,8 +202,7 @@ public class AuthenticationService {
 
         var verified = signedJWT.verify(verifier);
 
-        if (!(verified && expityTime.after(new Date())))
-            throw new AppException(ErrorCode.UN_AUTHENTICATED);
+        if (!(verified && expityTime.after(new Date()))) throw new AppException(ErrorCode.UN_AUTHENTICATED);
         if (invalidatedTokenRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID()))
             throw new AppException(ErrorCode.UN_AUTHENTICATED);
         return signedJWT;

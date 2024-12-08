@@ -1,10 +1,10 @@
 package com.webservice.hethongchothuevesi.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -15,17 +15,17 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "DanhMucKyNang")
 public class DanhMucKyNang {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idDanhMucKyNang")
-    Integer idDanhMucKyNang;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "idDanhMucKyNang")
+	Integer idDanhMucKyNang;
 
-    @Column(name = "tenKyNang")
-    String tenKyNang;
+	@Column(name = "tenKyNang")
+	String tenKyNang;
 
-    @Column(name = "moTa")
-    String moTa;
+	@Column(name = "moTa")
+	String moTa;
 
-    @Column(name = "ngayXoa")
-    LocalDateTime ngayXoa;
+	@Column(name = "ngayXoa")
+	LocalDateTime ngayXoa;
 }

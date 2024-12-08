@@ -1,11 +1,11 @@
 package com.webservice.hethongchothuevesi.entity;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -16,32 +16,32 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "KhoaDaoTao")
 public class KhoaDaoTao {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idKhoaDaoTao")
-    Integer idKhoaDaoTao;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "idKhoaDaoTao")
+	Integer idKhoaDaoTao;
 
-    @Column(name = "idDanhMucKhoaDaoTao")
-    Integer idDanhMucKhoaDaoTao;
+	@Column(name = "idDanhMucKhoaDaoTao")
+	Integer idDanhMucKhoaDaoTao;
 
-    @Column(name = "tenKhoaDaoTao")
-    String tenKhoaDaoTao;
+	@Column(name = "tenKhoaDaoTao")
+	String tenKhoaDaoTao;
 
-    @Column(name = "diaDiem")
-    String diaDiem;
+	@Column(name = "diaDiem")
+	String diaDiem;
 
-    @Column(name = "ngayBatDau")
-    LocalDate ngayBatDau;
+	@Column(name = "ngayBatDau")
+	LocalDate ngayBatDau;
 
-    @Column(name = "ngayKetThuc")
-    LocalDate ngayKetThuc;
+	@Column(name = "ngayKetThuc")
+	LocalDate ngayKetThuc;
 
-    @Column(name = "moTa")
-    String moTa;
+	@Column(name = "moTa")
+	String moTa;
 
-    @Column(name = "trangThai")
-    String trangThai;
+	@Column(name = "trangThai")
+	String trangThai;
 
-    @Column(name = "ngayXoa")
-    LocalDateTime ngayXoa;
+	@Column(name = "ngayXoa")
+	LocalDateTime ngayXoa;
 }

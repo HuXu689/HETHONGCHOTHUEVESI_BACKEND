@@ -13,14 +13,14 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "NguoiDungVaiTro")
 public class NguoiDungVaiTro {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idNguoiDungVaiTro")
-    Integer idNguoiDungVaiTro;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "idNguoiDungVaiTro")
+	Integer idNguoiDungVaiTro;
 
-    @Column(name = "idNguoiDung")
-    Integer idNguoiDung;
+	@Column(name = "idNguoiDung")
+	Integer idNguoiDung;
 
-    @Column(name = "idVaiTro")
-    Integer idVaiTro;
+	@Column(name = "idVaiTro")
+	Integer idVaiTro;
 }

@@ -1,5 +1,7 @@
 package com.webservice.hethongchothuevesi.mapper;
 
+import java.util.List;
+
 import com.webservice.hethongchothuevesi.dto.request.NguoiDungCreationRequest;
 import com.webservice.hethongchothuevesi.dto.request.NguoiDungUpdateRequest;
 import com.webservice.hethongchothuevesi.dto.response.NguoiDungResponse;
@@ -9,24 +11,20 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
-import java.util.List;
-
 @Mapper(componentModel = "spring")
 public interface NguoiDungMapper {
 
-    // Chuyển đổi Entity sang DTO response
-    NguoiDungResponse toNguoiDungResponse(NguoiDung nguoiDung);
+	// Chuyển đổi Entity sang DTO response
+	NguoiDungResponse toNguoiDungResponse(NguoiDung nguoiDung);
 
-    // Chuyển đổi List Entity sang DTO response
-    List<NguoiDungResponse> toNguoiDungResponse(List<NguoiDung> list);
+	// Chuyển đổi List Entity sang DTO response
+	List<NguoiDungResponse> toNguoiDungResponse(List<NguoiDung> list);
 
-    // Chuyển đổi DTO sang entity
-    NguoiDung toNguoiDung(NguoiDungCreationRequest nguoiDung);
+	// Chuyển đổi DTO sang entity
+	NguoiDung toNguoiDung(NguoiDungCreationRequest nguoiDung);
 
-    // Cập nhật dữ liệu khác null
-    @BeanMapping(
-            nullValuePropertyMappingStrategy =
-                    NullValuePropertyMappingStrategy.IGNORE)
-    // Dữ liệu đầu vào là null thì không update
-    void updateNguoiDung(@MappingTarget NguoiDung nguoiDung, NguoiDungUpdateRequest nguoiDungUpdateRequest);
+	// Cập nhật dữ liệu khác null
+	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+	// Dữ liệu đầu vào là null thì không update
+	void updateNguoiDung(@MappingTarget NguoiDung nguoiDung, NguoiDungUpdateRequest nguoiDungUpdateRequest);
 }

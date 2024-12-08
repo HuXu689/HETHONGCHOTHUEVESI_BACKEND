@@ -17,7 +17,9 @@ public enum ErrorCode {
     EMAIL_INVALID(1008, "Email không đúng định dạng", HttpStatus.BAD_REQUEST),
     VAITRO_NOT_EXISTED(1009, "Không tìm thấy vai trò", HttpStatus.NOT_FOUND),
     UN_AUTHORIZED(1010, "Không có quyền truy cập", HttpStatus.FORBIDDEN),
-    TOKEN_EXPIRED(1011, "Token hết hạn", HttpStatus.UNAUTHORIZED);;
+    TOKEN_EXPIRED(1011, "Token hết hạn", HttpStatus.UNAUTHORIZED),
+    PASSERROR(1012, "Sai tài khoản mật khẩu", HttpStatus.UNAUTHORIZED),
+    NGUOIDUNG_ALREADY_BLOCKED(1013, "Tài khoản đã bị khóa trước đó", HttpStatus.BAD_REQUEST);
     private final int code;
     private final String message;
     private final HttpStatusCode httpStatusCode;

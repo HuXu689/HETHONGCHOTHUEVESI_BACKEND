@@ -23,11 +23,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = BadJwtException.class)
     public ResponseEntity<ApiResponse<String>> badJwtExceptionHandler(BadJwtException e) {
         ApiResponse<String> apiResponse = new ApiResponse<>();
-        apiResponse.setCode(1009);  // Mã lỗi ví dụ cho BadJwtException
+        apiResponse.setCode(1009); // Mã lỗi ví dụ cho BadJwtException
         apiResponse.setMessage("Token không hợp lệ hoặc sai định dạng");
 
-        return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)  // Trả về HTTP status 401 (Unauthorized)
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED) // Trả về HTTP status 401 (Unauthorized)
                 .body(apiResponse);
     }
 
@@ -36,14 +35,13 @@ public class GlobalExceptionHandler {
 
         ApiResponse<String> apiResponse = new ApiResponse<>();
 
+        // Nếu muốn trả về thông tin chi tiết lỗi trong giai đoạn phát triển
+        String detailedMessage = e.getMessage() != null ? e.getMessage() : "Không có thông tin chi tiết";
+
         apiResponse.setCode(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode());
-        apiResponse.setMessage(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessage());
+        apiResponse.setMessage(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessage() + ": " + detailedMessage);
 
-        // Trong giai đoạn phát triển, bạn có thể thêm thông tin chi tiết
-        // apiResponse.setMessage(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessage() + ": " + e.getMessage());
-
-        return ResponseEntity
-                .status(ErrorCode.UNCATEGORIZED_EXCEPTION.getHttpStatusCode())
+        return ResponseEntity.status(ErrorCode.UNCATEGORIZED_EXCEPTION.getHttpStatusCode())
                 .body(apiResponse);
     }
 
@@ -56,48 +54,44 @@ public class GlobalExceptionHandler {
         apiResponse.setCode(errorCode.getCode());
         apiResponse.setMessage(errorCode.getMessage());
 
-        return ResponseEntity
-                .status(errorCode.getHttpStatusCode())
-                .body(apiResponse);
+        return ResponseEntity.status(errorCode.getHttpStatusCode()).body(apiResponse);
     }
 
     // Xử lý ngoại lệ khi tham số không hợp lệ
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiResponse<String>> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
+    public ResponseEntity<ApiResponse<String>> methodArgumentNotValidExceptionHandler(
+            MethodArgumentNotValidException e) {
         ApiResponse<String> apiResponse = new ApiResponse<>();
 
         if (e.getFieldError() != null) {
-            String enumKey = e.getFieldError().getDefaultMessage(); // Nhận chuỗi từ @Size hoặc các annotation validation khác
+            String enumKey =
+                    e.getFieldError().getDefaultMessage(); // Nhận chuỗi từ @Size hoặc các annotation validation khác
 
             Map<String, Object> attributes = null;
             try {
                 // Ánh xạ enumKey trực tiếp tới ErrorCode
                 ErrorCode errorCode = ErrorCode.valueOf(enumKey);
 
-                var constraintViolation = e.getBindingResult().getAllErrors().getFirst().unwrap(ConstraintViolation.class);
+                var constraintViolation =
+                        e.getBindingResult().getAllErrors().getFirst().unwrap(ConstraintViolation.class);
                 attributes = constraintViolation.getConstraintDescriptor().getAttributes();
 
                 apiResponse.setCode(errorCode.getCode());
-                apiResponse.setMessage(Objects.nonNull(attributes) ?
-                        mapAttribute(errorCode.getMessage(), attributes) :
-                        errorCode.getMessage());
-                return ResponseEntity
-                        .status(errorCode.getHttpStatusCode())
-                        .body(apiResponse);
+                apiResponse.setMessage(
+                        Objects.nonNull(attributes)
+                                ? mapAttribute(errorCode.getMessage(), attributes)
+                                : errorCode.getMessage());
+                return ResponseEntity.status(errorCode.getHttpStatusCode()).body(apiResponse);
             } catch (IllegalArgumentException ex) {
                 // Nếu enumKey không hợp lệ, trả về lỗi không xác định
                 apiResponse.setCode(2001);
                 apiResponse.setMessage("Không phát hiện lỗi");
-                return ResponseEntity
-                        .status(HttpStatus.BAD_REQUEST)
-                        .body(apiResponse);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
             }
         } else {
             apiResponse.setCode(2002);
             apiResponse.setMessage("Không phát hiện lỗi");
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(apiResponse);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
         }
     }
 
@@ -107,7 +101,8 @@ public class GlobalExceptionHandler {
         ApiResponse<String> apiResponse = new ApiResponse<>();
 
         // Lấy một lỗi vi phạm đầu tiên nếu có
-        ConstraintViolation<?> violation = e.getConstraintViolations().iterator().next();
+        ConstraintViolation<?> violation =
+                e.getConstraintViolations().iterator().next();
         if (violation != null) {
             String enumKey = violation.getMessage(); // Lấy thông báo từ ConstraintViolation
 
@@ -116,23 +111,17 @@ public class GlobalExceptionHandler {
                 ErrorCode errorCode = ErrorCode.valueOf(enumKey);
                 apiResponse.setCode(errorCode.getCode());
                 apiResponse.setMessage(errorCode.getMessage());
-                return ResponseEntity
-                        .status(errorCode.getHttpStatusCode())
-                        .body(apiResponse);
+                return ResponseEntity.status(errorCode.getHttpStatusCode()).body(apiResponse);
             } catch (IllegalArgumentException ex) {
                 // Nếu enumKey không hợp lệ
                 apiResponse.setCode(2003);
                 apiResponse.setMessage("Không phát hiện lỗi");
-                return ResponseEntity
-                        .status(HttpStatus.BAD_REQUEST)
-                        .body(apiResponse);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
             }
         } else {
             apiResponse.setCode(2004);
             apiResponse.setMessage("Không phát hiện lỗi");
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(apiResponse);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
         }
     }
 
@@ -141,12 +130,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Object>> accessDeniedExceptionHandler(AccessDeniedException e) {
         ErrorCode errorCode = ErrorCode.UN_AUTHORIZED;
 
-        return ResponseEntity.status(errorCode.getHttpStatusCode()).body(
-                ApiResponse.builder()
+        return ResponseEntity.status(errorCode.getHttpStatusCode())
+                .body(ApiResponse.builder()
                         .code(errorCode.getCode())
                         .message(errorCode.getMessage())
-                        .build()
-        );
+                        .build());
     }
 
     // Hàm hỗ trợ ánh xạ thông điệp với các thuộc tính

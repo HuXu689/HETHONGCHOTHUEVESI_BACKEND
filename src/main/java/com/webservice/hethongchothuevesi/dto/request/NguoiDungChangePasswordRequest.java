@@ -11,9 +11,9 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class NguoiDungChangePasswordRequest {
-    @Size(min = 8, message = "MATKHAU_INVALID")
-    String matKhauCu;
+	@Size(min = 8, message = "MATKHAU_INVALID")
+	String matKhauCu;
 
-    @Size(min = 8, message = "MATKHAU_INVALID")
-    String matKhauMoi;
+	@Size(min = 8, message = "MATKHAU_INVALID")
+	String matKhauMoi;
 }

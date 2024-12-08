@@ -18,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -40,9 +39,8 @@ public class NguoiDungService {
      * description: Tạo tài khoản khách hàng mới
      * update:
      */
-    @PreAuthorize("hasRole('Admin')")
     public NguoiDungResponse createRequest(NguoiDungCreationRequest request) {
-        if (nguoiDungRepository.existsByTenDangNhap(request.getTenDangNhap())) {
+        if (Boolean.TRUE.equals(nguoiDungRepository.existsByTenDangNhap(request.getTenDangNhap()))) {
             throw new AppException(ErrorCode.TENDANGNHAP_EXISTED);
         }
 
@@ -64,7 +62,6 @@ public class NguoiDungService {
      * description: Cập nhật thông tin người dùng
      * update:
      */
-    @PreAuthorize("hasRole('Admin') or #id == authentication.principal.id")
     public NguoiDungResponse updateRequest(int id, NguoiDungUpdateRequest request) {
         NguoiDung nguoiDung = findNguoiDungById(id);
         nguoiDungMapper.updateNguoiDung(nguoiDung, request);
@@ -77,7 +74,6 @@ public class NguoiDungService {
      * description: Thay đổi mật khẩu người dùng
      * update:
      */
-    @PreAuthorize("hasRole('Admin') or #id == authentication.principal.id")
     public boolean changePasswordRequest(int id, NguoiDungChangePasswordRequest request) {
         NguoiDung nguoiDung = findNguoiDungById(id);
         if (authenticationService.checkNguoiDungId(id, request.getMatKhauCu())) {
@@ -135,7 +131,6 @@ public class NguoiDungService {
      * description: Lấy dữ liệu của tất cả người dùng chưa bị xóa mềm
      * update:
      */
-    @PreAuthorize("hasRole('Admin')")
     public List<NguoiDungResponse> getAllSoftRequest() {
         return nguoiDungMapper.toNguoiDungResponse(nguoiDungRepository.findByNgayXoaIsNull());
     }
@@ -146,7 +141,6 @@ public class NguoiDungService {
      * description: Lấy dữ liệu của tất cả người dùng
      * update:
      */
-    @PreAuthorize("hasRole('Admin')")
     public List<NguoiDungResponse> getAllRequest() {
         /*
          * Liệt kê danh sách vai trò của người dùng đang login
@@ -171,6 +165,50 @@ public class NguoiDungService {
 
     /*
      * @author: XuanHuynh
+     * @since: 16/10/2024 1:05 AM
+     * description: Tìm kiếm người dùng chưa bị xóa mềm theo tên đăng nhập hoặc email
+     * update:
+     */
+    public List<NguoiDungResponse> searchSoftNguoiDung(String keyword) {
+        List<NguoiDung> nguoiDungList =
+                nguoiDungRepository.findByTenDangNhapContainingOrEmailContainingAndNgayXoaIsNull(keyword, keyword);
+        return nguoiDungMapper.toNguoiDungResponse(nguoiDungList);
+    }
+
+    /*
+     * @author: XuanHuynh
+     * @since: 16/10/2024 1:05 AM
+     * description: Đếm số người dùng chưa bị xóa mềm
+     * update:
+     */
+    public long countSoftNguoiDung() {
+        return nguoiDungRepository.countByNgayXoaIsNull();
+    }
+
+    /*
+     * @author: XuanHuynh
+     * @since: 5/12/2024 11:50 PM
+     * description: Lấy dữ liêu phân trang cho người dùng chưa xóa mềm
+     * update:
+     */
+    public Page<NguoiDungResponse> getPhanTrangSoftNguoiDung(int trang, int sl) {
+        Pageable pageable = PageRequest.of(trang, sl);
+        Page<NguoiDung> nguoiDungPage = nguoiDungRepository.findByNgayXoaIsNull(pageable);
+        return nguoiDungPage.map(nguoiDungMapper::toNguoiDungResponse);
+    }
+
+    /*
+     * @author: XuanHuynh
+     * @since: 16/10/2024 1:05 AM
+     * description: Tìm người dùng theo ID
+     * update:
+     */
+    private NguoiDung findNguoiDungById(int id) {
+        return nguoiDungRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.NGUOIDUNG_NOT_EXISTED));
+    }
+
+    /*
+     * @author: XuanHuynh
      * @since: 13/10/2024 12:08 SA
      * description: Lấy dữ liệu của người dùng theo ID
      * update:
@@ -191,15 +229,27 @@ public class NguoiDungService {
         return nguoiDungMapper.toNguoiDungResponse(nguoiDungList);
     }
 
+
     /*
      * @author: XuanHuynh
-     * @since: 16/10/2024 1:05 AM
-     * description: Tìm người dùng theo ID
+     * @since: 17/10/2024 12:00 PM
+     * description: Đổi trạng thái người dùng thành "Bị khóa"
      * update:
      */
-    private NguoiDung findNguoiDungById(int id) {
-        return nguoiDungRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.NGUOIDUNG_NOT_EXISTED));
+    public NguoiDungResponse blockNguoiDung(int id) {
+        NguoiDung nguoiDung = findNguoiDungById(id);
+
+        // Kiểm tra nếu người dùng đã bị khóa trước đó
+        if ("Bị khóa".equals(nguoiDung.getTrangThai())) {
+            throw new AppException(ErrorCode.NGUOIDUNG_ALREADY_BLOCKED);
+        }
+
+        nguoiDung.setTrangThai("Bị khóa");
+        nguoiDungRepository.save(nguoiDung);
+
+        return nguoiDungMapper.toNguoiDungResponse(nguoiDung);
     }
+
 
     /*
      * @author: XuanHuynh
@@ -211,15 +261,6 @@ public class NguoiDungService {
         return nguoiDungRepository.count();
     }
 
-    /*
-     * @author: XuanHuynh
-     * @since: 16/10/2024 1:05 AM
-     * description: Đếm số người dùng chưa bị xóa mềm
-     * update:
-     */
-    public long countSoftNguoiDung() {
-        return nguoiDungRepository.countByNgayXoaIsNull();
-    }
 
     /*
      * @author: XuanHuynh

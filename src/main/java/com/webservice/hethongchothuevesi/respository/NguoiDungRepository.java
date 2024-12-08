@@ -35,6 +35,12 @@ public interface NguoiDungRepository extends JpaRepository<NguoiDung, Integer> {
     // Tìm kiếm phân trang
     Page<NguoiDung> findAll(Pageable pageable);
 
+    // Tìm kiếm phân trang chưa xóa mềm
+    Page<NguoiDung> findByNgayXoaIsNull(Pageable pageable);
+
     // Tìm kiếm tên đăng nhập có hay không
     Optional<NguoiDung> findByTenDangNhap(String tenDangNhap);
+
+    // Phương thức tìm kiếm người dùng chưa bị xóa mềm
+    List<NguoiDung> findByTenDangNhapContainingOrEmailContainingAndNgayXoaIsNull(String keywordTenDangNhap, String keywordEmail);
 }

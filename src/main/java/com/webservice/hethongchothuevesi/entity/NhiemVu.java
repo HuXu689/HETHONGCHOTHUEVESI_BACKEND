@@ -39,8 +39,20 @@ public class NhiemVu {
     @Column(name = "noiDung")
     String noiDung;
 
-    @Column(name = "soSaoDanhGia")
-    Integer soSaoDanhGia;
+    @Column(name = "danhGiaKyNangChuyenMon")
+    Integer danhGiaKyNangChuyenMon;
+
+    @Column(name = "danhGiaXuLyTinhHuong")
+    Integer danhGiaXuLyTinhHuong;
+
+    @Column(name = "danhGiaThaiDoDaoDuc")
+    Integer danhGiaThaiDoDaoDuc;
+
+    @Column(name = "danhGiaGiaoTiep")
+    Integer danhGiaGiaoTiep;
+
+    @Column(name = "danhGiaNgoaiHinh")
+    Integer danhGiaNgoaiHinh;
 
     @Column(name = "thongTinDanhGia")
     String thongTinDanhGia;
