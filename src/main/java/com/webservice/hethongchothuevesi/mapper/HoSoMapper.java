@@ -5,12 +5,9 @@ import java.util.List;
 import com.webservice.hethongchothuevesi.dto.dto.HoSoDTO;
 import com.webservice.hethongchothuevesi.entity.HoSo;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface HoSoMapper {
-
-	HoSoMapper INSTANCE = Mappers.getMapper(HoSoMapper.class);
 
 	// Chuyển đổi từ entity sang DTO
 	HoSoDTO toDTO(HoSo entity);

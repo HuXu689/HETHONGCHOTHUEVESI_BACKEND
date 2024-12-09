@@ -5,12 +5,9 @@ import java.util.List;
 import com.webservice.hethongchothuevesi.dto.dto.DanhMucDichVuDTO;
 import com.webservice.hethongchothuevesi.entity.DanhMucDichVu;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface DanhMucDichVuMapper {
-
-	DanhMucDichVuMapper INSTANCE = Mappers.getMapper(DanhMucDichVuMapper.class);
 
 	// Chuyển đổi từ entity sang DTO
 	DanhMucDichVuDTO toDTO(DanhMucDichVu entity);

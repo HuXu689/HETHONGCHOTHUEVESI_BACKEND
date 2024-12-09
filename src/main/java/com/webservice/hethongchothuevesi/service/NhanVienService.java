@@ -7,14 +7,11 @@ import com.webservice.hethongchothuevesi.dto.dto.NhanVienDTO;
 import com.webservice.hethongchothuevesi.entity.NhanVien;
 import com.webservice.hethongchothuevesi.mapper.NhanVienMapper;
 import com.webservice.hethongchothuevesi.respository.NhanVienRepository;
-import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -24,7 +21,6 @@ public class NhanVienService {
 	NhanVienMapper nhanVienMapper;
 
 	// Create: Tạo mới nhân viên
-	@Transactional
 	public NhanVienDTO createNhanVien(NhanVienDTO nhanVienDTO) {
 		NhanVien nhanVien = nhanVienMapper.toEntity(nhanVienDTO);
 		nhanVien.setNgayXoa(null); // Đảm bảo nhân viên mới không bị xóa mềm
@@ -41,11 +37,10 @@ public class NhanVienService {
 
 	// Read (get all): Lấy tất cả nhân viên chưa bị xóa mềm
 	public List<NhanVienDTO> getAllNhanVien() {
-		return nhanVienMapper.toDTO(nhanVienRepository.findByNgayXoaIsNull());
+		return nhanVienMapper.toListDto(nhanVienRepository.findByNgayXoaIsNull());
 	}
 
 	// Update: Cập nhật thông tin nhân viên
-	@Transactional
 	public NhanVienDTO updateNhanVien(Integer id, NhanVienDTO nhanVienDTO) {
 		NhanVien nhanVien =
 				nhanVienRepository.findById(id).orElseThrow(() -> new RuntimeException("Nhân viên không tồn tại"));
@@ -61,7 +56,6 @@ public class NhanVienService {
 	}
 
 	// Soft Delete: Xóa mềm nhân viên (đặt ngày xóa)
-	@Transactional
 	public void deleteNhanVien(Integer id) {
 		NhanVien nhanVien =
 				nhanVienRepository.findById(id).orElseThrow(() -> new RuntimeException("Nhân viên không tồn tại"));
