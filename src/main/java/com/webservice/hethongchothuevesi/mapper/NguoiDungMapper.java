@@ -25,7 +25,6 @@ public interface NguoiDungMapper {
 
 	// Cập nhật dữ liệu khác null
 	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-
 	// Dữ liệu đầu vào là null thì không update
 	void updateNguoiDung(@MappingTarget NguoiDung nguoiDung, NguoiDungUpdateRequest nguoiDungUpdateRequest);
 }

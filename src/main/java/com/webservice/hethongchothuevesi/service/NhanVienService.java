@@ -20,47 +20,45 @@ public class NhanVienService {
 	NhanVienRepository nhanVienRepository;
 	NhanVienMapper nhanVienMapper;
 
-	// Create: Tạo mới nhân viên
+	// Create: Tạo mới data
 	public NhanVienDTO createNhanVien(NhanVienDTO nhanVienDTO) {
 		NhanVien nhanVien = nhanVienMapper.toEntity(nhanVienDTO);
 		nhanVien.setNgayXoa(null); // Đảm bảo nhân viên mới không bị xóa mềm
+		nhanVien.setTrangThai("Hoạt động");
 		nhanVien = nhanVienRepository.save(nhanVien);
 		return nhanVienMapper.toDTO(nhanVien);
 	}
 
-	// Read (get by id): Lấy nhân viên theo ID
+	// Read (get by id): Lấy data theo ID
 	public NhanVienDTO getNhanVienById(Integer id) {
-		NhanVien nhanVien =
-				nhanVienRepository.findById(id).orElseThrow(() -> new RuntimeException("Nhân viên không tồn tại"));
+		NhanVien nhanVien = nhanVienRepository
+				.findByIdNhanVienAndNgayXoaIsNull(id)
+				.orElseThrow(() -> new RuntimeException("Nhân viên không tồn tại"));
 		return nhanVienMapper.toDTO(nhanVien);
 	}
 
-	// Read (get all): Lấy tất cả nhân viên chưa bị xóa mềm
+	// Read (get all): Lấy tất cả data chưa bị xóa mềm
 	public List<NhanVienDTO> getAllNhanVien() {
 		return nhanVienMapper.toListDto(nhanVienRepository.findByNgayXoaIsNull());
 	}
 
-	// Update: Cập nhật thông tin nhân viên
-	public NhanVienDTO updateNhanVien(Integer id, NhanVienDTO nhanVienDTO) {
-		NhanVien nhanVien =
-				nhanVienRepository.findById(id).orElseThrow(() -> new RuntimeException("Nhân viên không tồn tại"));
+	// Update: Cập nhật thông tin
+	public NhanVienDTO updateNhanVien(Integer id, NhanVienDTO request) {
+		NhanVien nhanVien = nhanVienRepository
+				.findByIdNhanVienAndNgayXoaIsNull(id)
+				.orElseThrow(() -> new RuntimeException("Nhân viên không tồn tại"));
 
-		nhanVien.setCapBac(nhanVienDTO.getCapBac());
-		nhanVien.setLuong(nhanVienDTO.getLuong());
-		nhanVien.setTrangThai(nhanVienDTO.getTrangThai());
-		nhanVien.setNgayBatDauLam(nhanVienDTO.getNgayBatDauLam());
-		nhanVien.setNgayLenCap(nhanVienDTO.getNgayLenCap());
+		nhanVienMapper.updateEntity(nhanVien, request);
 
-		nhanVien = nhanVienRepository.save(nhanVien);
-		return nhanVienMapper.toDTO(nhanVien);
+		return nhanVienMapper.toDTO(nhanVienRepository.save(nhanVien));
 	}
 
-	// Soft Delete: Xóa mềm nhân viên (đặt ngày xóa)
+	// Soft Delete: Xóa mềm (đặt ngày xóa)
 	public void deleteNhanVien(Integer id) {
 		NhanVien nhanVien =
 				nhanVienRepository.findById(id).orElseThrow(() -> new RuntimeException("Nhân viên không tồn tại"));
 
-		nhanVien.setNgayXoa(LocalDateTime.now()); // Đặt ngày xóa là thời điểm hiện tại
+		nhanVien.setNgayXoa(LocalDateTime.now());
 		nhanVienRepository.save(nhanVien);
 	}
 }

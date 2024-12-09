@@ -14,9 +14,9 @@ public interface NhanVienRepository extends JpaRepository<NhanVien, Integer> {
 
 	List<NhanVien> findByNgayXoaIsNull();
 
-	Optional<NhanVien> findByIdNguoiDung(int idNguoiDung);
+	Optional<NhanVien> findByIdNhanVien(int idNguoiDung);
 
-	Optional<NhanVien> findByIdNguoiDungAndNgayXoaIsNull(int idNguoiDung);
+	Optional<NhanVien> findByIdNhanVienAndNgayXoaIsNull(int idNguoiDung);
 
 	long countByNgayXoaIsNull();
 

@@ -4,7 +4,10 @@ import java.util.List;
 
 import com.webservice.hethongchothuevesi.dto.dto.TepHopDongDTO;
 import com.webservice.hethongchothuevesi.entity.TepHopDong;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring")
 public interface TepHopDongMapper {
@@ -17,4 +20,8 @@ public interface TepHopDongMapper {
 
 	// Chuyển đổi List Entity sang DTO response
 	List<TepHopDongDTO> toListDto(List<TepHopDong> list);
+
+	// Cập nhật dữ liệu khác null
+	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+	void updateEntity(@MappingTarget TepHopDong entity, TepHopDongDTO dto);
 }
