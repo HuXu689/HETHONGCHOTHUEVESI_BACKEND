@@ -1,7 +1,9 @@
 package com.webservice.hethongchothuevesi.mapper;
 
-import com.webservice.hethongchothuevesi.dto.dto.*;
-import com.webservice.hethongchothuevesi.entity.*;
+import java.util.List;
+
+import com.webservice.hethongchothuevesi.dto.dto.HoaDonDTO;
+import com.webservice.hethongchothuevesi.entity.HoaDon;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -15,4 +17,7 @@ public interface HoaDonMapper {
 
 	// Chuyển đổi từ sang entity
 	HoaDon toEntity(HoaDonDTO dto);
+
+	// Chuyển đổi List Entity sang DTO response
+	List<HoaDonDTO> toListDto(List<HoaDon> list);
 }
