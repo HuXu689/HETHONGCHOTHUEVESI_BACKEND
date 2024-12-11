@@ -12,6 +12,7 @@ spring:
 
   datasource:
     url: jdbc:mysql://localhost:3306/HETHONGCHOTHUEVESI  # URL kết nối MySQL
+    #    url: jdbc:mysql://172.17.0.2/HETHONGCHOTHUEVESI  # URL kết nối MySQL
     username: root  # Tên người dùng MySQL
     password: root  # Mật khẩu người dùng MySQL
     driver-class-name: com.mysql.cj.jdbc.Driver  # Driver cho MySQL
