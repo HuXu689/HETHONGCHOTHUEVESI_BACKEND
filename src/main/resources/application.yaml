@@ -9,7 +9,40 @@ spring:
       name: admin
       password: admin
       roles: ADMIN
-
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 1072233746069-nnpre089fhuiva9stirivseni2467ihv.apps.googleusercontent.com
+            client-secret: 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
+            redirect-uri: "{baseUrl}/auth/google/callback"
+            scope:
+              - openid
+              - profile
+              - email
+            authorization-grant-type: authorization_code
+            client-name: Google
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://openidconnect.googleapis.com/v1/userinfo
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: bodyguardhethongchothuevesi@gmail.com
+    password: oubaztkfxmcjhjcb
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    default-encoding: UTF-8
+    mail-from: bodyguardhethongchothuevesi@gmail.com
+  application:
+    serverName: "BODYGUARD Hệ thống cho thuê vệ sĩ"
   datasource:
     url: jdbc:mysql://localhost:3306/HETHONGCHOTHUEVESI  # URL kết nối MySQL
     #    url: jdbc:mysql://172.17.0.2/HETHONGCHOTHUEVESI  # URL kết nối MySQL

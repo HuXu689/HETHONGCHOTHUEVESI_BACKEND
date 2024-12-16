@@ -1,9 +1,10 @@
 package com.webservice.hethongchothuevesi.dto.dto;
 
-import java.time.LocalDateTime;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -12,9 +13,11 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ThongBaoNguoiDungDTO {
-	private Integer idThongBaoNguoiDung;
-	private Integer idThongBao;
-	private Integer idNguoiDung;
-	private LocalDateTime thoiGianDoc;
-	private LocalDateTime ngayXoa;
+    private Integer idThongBaoNguoiDung;
+    private Integer idThongBao;
+    private Integer idNguoiDung;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
+    private LocalDateTime thoiGianDoc;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
+    private LocalDateTime ngayXoa;
 }

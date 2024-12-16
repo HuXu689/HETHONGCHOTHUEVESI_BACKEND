@@ -55,6 +55,8 @@ public class SecurityConfig {
                 .oauth2ResourceServer(AbstractHttpConfigurer::disable)
                 // Tắt CSRF nếu muốn
                 .csrf(AbstractHttpConfigurer::disable)
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(
+                        jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter())))
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
         return http.build();

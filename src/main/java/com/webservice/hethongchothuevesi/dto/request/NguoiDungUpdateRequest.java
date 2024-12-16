@@ -1,10 +1,11 @@
 package com.webservice.hethongchothuevesi.dto.request;
 
-import java.time.LocalDate;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.webservice.hethongchothuevesi.validator.DobConstraint;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -13,15 +14,16 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class NguoiDungUpdateRequest {
-	String anhDaiDien;
-	String gioiTinh;
+    String anhDaiDien;
+    String gioiTinh;
 
-	@DobConstraint(min = 18)
-	LocalDate ngaySinh;
+    @DobConstraint(min = 18)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    LocalDate ngaySinh;
 
-	String email;
-	String soDienThoai;
-	String hoTen;
-	String soCccd;
-	String diaChi;
+    String email;
+    String soDienThoai;
+    String hoTen;
+    String soCccd;
+    String diaChi;
 }

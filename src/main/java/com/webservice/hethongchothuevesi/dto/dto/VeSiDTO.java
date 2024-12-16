@@ -1,11 +1,12 @@
 package com.webservice.hethongchothuevesi.dto.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
-import lombok.*;
-import lombok.experimental.FieldDefaults;
 
 @Getter
 @Setter
@@ -14,14 +15,17 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class VeSiDTO {
-	private Integer idVeSi;
-	private Integer idNguoiDung;
-	private Integer kinhNghiem;
-	private String thongTinDanhGiaChung;
-	private LocalDate ngayBatDauLam;
-	private String capBac;
-	private LocalDate ngayLenCap;
-	private BigDecimal luong;
-	private String trangThai;
-	private LocalDateTime ngayXoa;
+    private Integer idVeSi;
+    private Integer idNguoiDung;
+    private Integer kinhNghiem;
+    private String thongTinDanhGiaChung;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private LocalDate ngayBatDauLam;
+    private String capBac;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private LocalDate ngayLenCap;
+    private BigDecimal luong;
+    private String trangThai;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
+    private LocalDateTime ngayXoa;
 }
