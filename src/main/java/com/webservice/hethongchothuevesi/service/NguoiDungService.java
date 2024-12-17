@@ -91,6 +91,19 @@ public class NguoiDungService {
 
     /*
      * @author: XuanHuynh
+     * @since: 17/12/2024 4:47 PM
+     * description: Thay đổi mật khẩu người dùng qua email (không cần mật khẩu cũ)
+     * update:
+     */
+    public boolean changePasswordByEmail(int id, NguoiDungChangePasswordRequest request) {
+        NguoiDung nguoiDung = findNguoiDungById(id);
+        nguoiDung.setMatKhau(authenticationService.encryption(request.getMatKhauMoi()));
+        nguoiDungRepository.save(nguoiDung);
+        return true;
+    }
+
+    /*
+     * @author: XuanHuynh
      * @since: 10/14/2024 12:27 PM
      * description: Xóa mềm người dùng
      * update:

@@ -42,6 +42,7 @@ spring:
     default-encoding: UTF-8
     mail-from: bodyguardhethongchothuevesi@gmail.com
   application:
+    serverLocal: "http://localhost:3000"
     serverName: "BODYGUARD Hệ thống cho thuê vệ sĩ"
   datasource:
     url: jdbc:mysql://localhost:3306/HETHONGCHOTHUEVESI  # URL kết nối MySQL

@@ -29,21 +29,29 @@ public record EmailController(EmailService mailService) {
         }
     }
 
-    // API gửi OTP qua email
+    /**
+     * Gửi OTP qua email.
+     *
+     * @param email Email của người nhận.
+     * @return Thông báo gửi OTP thành công.
+     */
     @PostMapping("/send-otp")
     public String sendOTP(@RequestParam String email) {
         mailService.sendOTPToEmail(email);
-        return "OTP đã được gửi tới email: " + email;
+        return "OTP đã được gửi đến email: " + email;
     }
 
-    // API kiểm tra OTP với email
+    /**
+     * Xác thực OTP.
+     *
+     * @param email Email cần xác thực.
+     * @param otp   Mã OTP.
+     * @return `true` nếu OTP hợp lệ, ngược lại `false`.
+     */
     @PostMapping("/verify-otp")
-    public String verifyOTP(@RequestParam String email, @RequestParam String otp) {
-        boolean isValid = mailService.verifyOTP(email, otp);
-        if (isValid) {
-            return "Xác thực OTP thành công!";
-        } else {
-            return "Mã OTP hoặc email không hợp lệ!";
-        }
+    public boolean verifyOTP(@RequestParam String email, @RequestParam String otp) {
+        return mailService.verifyOTP(email, otp);
     }
+
+
 }
