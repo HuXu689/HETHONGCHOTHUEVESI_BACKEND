@@ -13,13 +13,11 @@ spring:
       client:
         registration:
           google:
-            client-id: 1072233746069-nnpre089fhuiva9stirivseni2467ihv.apps.googleusercontent.com
-            client-secret: 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
+            client-id: 1019379455851-ql3lienhckt4aba3rrf91fi4219d4kas.apps.googleusercontent.com
+            client-secret: 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
             redirect-uri: "{baseUrl}/auth/google/callback"
             scope:
-              - openid
-              - profile
-              - email
+              - KhachHang
             authorization-grant-type: authorization_code
             client-name: Google
         provider:

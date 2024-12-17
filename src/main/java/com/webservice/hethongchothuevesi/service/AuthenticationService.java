@@ -78,10 +78,9 @@ public class AuthenticationService {
      * update:
      */
     public AuthenticationResponse checkNguoiDung(AuthenticationRequest request) {
-        // Kiểm tra xem input có phải là email hay tên đăng nhập
-        var nguoiDung = nguoiDungRepository.findByTenDangNhap(request.getTenDangNhap())
-                .orElseGet(() -> nguoiDungRepository.findByEmail(request.getTenDangNhap())
-                        .orElseThrow(() -> new AppException(ErrorCode.NGUOIDUNG_NOT_EXISTED)));
+        var nguoiDung = nguoiDungRepository
+                .findByTenDangNhap(request.getTenDangNhap())
+                .orElseThrow(() -> new AppException(ErrorCode.NGUOIDUNG_NOT_EXISTED));
 
         boolean authenticated = passwordEncoder.matches(request.getMatKhau(), nguoiDung.getMatKhau());
 
@@ -97,7 +96,7 @@ public class AuthenticationService {
      * description: Tạo token đăng nhập, truy cập jwt.io để xem nội dung token
      * update:
      */
-    private String generateToken(NguoiDung nguoiDung) {
+    public String generateToken(NguoiDung nguoiDung) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
