@@ -84,6 +84,7 @@ public class NguoiDungService {
         NguoiDung nguoiDung = findNguoiDungById(id);
         if (authenticationService.checkNguoiDungId(id, request.getMatKhauCu())) {
             nguoiDung.setMatKhau(authenticationService.encryption(request.getMatKhauMoi()));
+            nguoiDungRepository.save(nguoiDung);
             return true;
         }
         return false;
@@ -224,6 +225,18 @@ public class NguoiDungService {
      */
     private NguoiDung findNguoiDungById(int id) {
         return nguoiDungRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.NGUOIDUNG_NOT_EXISTED));
+    }
+
+    /*
+     * @author: XuanHuynh
+     * @since: 18/12/2024 1:42 PM
+     * description: Tìm người duùng theo tên đăng nhập
+     * update:
+     */
+    public NguoiDungResponse findNguoiDungByTenDangNhap(String tenDangNhap) {
+        return nguoiDungMapper.toNguoiDungResponse(nguoiDungRepository
+                .findByTenDangNhapAndNgayXoaIsNull(tenDangNhap)
+                .orElseThrow(() -> new AppException(ErrorCode.NGUOIDUNG_NOT_EXISTED)));
     }
 
     /*

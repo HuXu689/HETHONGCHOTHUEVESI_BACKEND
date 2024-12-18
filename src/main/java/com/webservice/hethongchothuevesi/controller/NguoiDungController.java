@@ -96,6 +96,17 @@ public class NguoiDungController {
 
     /*
      * @author: XuanHuynh
+     * @since: 18/12/2024 1:59 PM
+     * description: Lấy dữ liệu của NguoiDung theo tenDangNhap chưa xóa mềm
+     * update:
+     */
+    @GetMapping("/GetByTenDangNhap/{tenDangNhap}")
+    public NguoiDungResponse getSoftRequestByTenDangNhap(@PathVariable("tenDangNhap") String tenDangNhap) {
+        return NguoiDungService.findNguoiDungByTenDangNhap(tenDangNhap);
+    }
+
+    /*
+     * @author: XuanHuynh
      * @since: 16/10/2024 1:10 AM
      * description: Tìm kiếm NguoiDung chưa xóa mềm theo tên đăng nhập hoặc email
      * update:

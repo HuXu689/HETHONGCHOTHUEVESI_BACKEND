@@ -22,6 +22,10 @@ public interface NguoiDungRepository extends JpaRepository<NguoiDung, Integer> {
     // Tìm khách hàng theo idNguoiDung và chưa bị xóa mềm
     Optional<NguoiDung> findByIdNguoiDungAndNgayXoaIsNull(int idNguoiDung);
 
+
+    // Tìm khách hàng theo tenDangNhap và chưa bị xóa mềm
+    Optional<NguoiDung> findByTenDangNhapAndNgayXoaIsNull(String tenDangNhap);
+
     // Kiểm tra tên đăng nhập đã có hay có hay chưa
     Boolean existsByTenDangNhap(String tenDangNhap);
 
