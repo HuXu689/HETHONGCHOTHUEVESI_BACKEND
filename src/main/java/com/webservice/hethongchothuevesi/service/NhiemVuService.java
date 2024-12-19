@@ -2,8 +2,10 @@ package com.webservice.hethongchothuevesi.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.webservice.hethongchothuevesi.dto.dto.NhiemVuDTO;
+import com.webservice.hethongchothuevesi.dto.request.NhiemVuRequest;
 import com.webservice.hethongchothuevesi.entity.NhiemVu;
 import com.webservice.hethongchothuevesi.mapper.NhiemVuMapper;
 import com.webservice.hethongchothuevesi.respository.NhiemVuRepository;
@@ -23,9 +25,28 @@ public class NhiemVuService {
 	// Create: Tạo mới data
 	public NhiemVuDTO createNhiemVu(NhiemVuDTO nhiemVuDTO) {
 		NhiemVu nhiemVu = nhiemVuMapper.toEntity(nhiemVuDTO);
-		nhiemVu.setTrangThai("Hoạt động");
+		nhiemVu.setTrangThai("Đang thực hiện");
 		nhiemVu = nhiemVuRepository.save(nhiemVu);
 		return nhiemVuMapper.toDTO(nhiemVu);
+	}
+
+	public void addListNhiemVu(NhiemVuRequest request) {
+		// Lặp qua danh sách idVeSi và tạo nhiệm vụ
+		List<NhiemVu> nhiemVus = request.getListIdVeSi().stream()
+				.map(idVeSi -> {
+					NhiemVu nhiemVu = new NhiemVu();
+					nhiemVu.setIdHopDong(request.getIdHopDong());
+					nhiemVu.setIdVeSi(idVeSi);
+					nhiemVu.setNgayBatDau(request.getNgayBatDau());
+					nhiemVu.setNgayKetThuc(request.getNgayKetThuc());
+					nhiemVu.setNoiDung(request.getNoiDung());
+					nhiemVu.setTrangThai("Đang thực hiện");
+					return nhiemVu;
+				})
+				.collect(Collectors.toList());
+
+		// Lưu toàn bộ danh sách vào database
+		nhiemVuRepository.saveAll(nhiemVus);
 	}
 
 	// Read (get by id): Lấy data theo ID

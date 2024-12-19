@@ -1,23 +1,48 @@
 package com.webservice.hethongchothuevesi.respository;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.webservice.hethongchothuevesi.dto.dto.VeSiDTO;
 import com.webservice.hethongchothuevesi.entity.VeSi;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface VeSiRepository extends JpaRepository<VeSi, Integer> {
-	List<VeSi> findByNgayXoaIsNull();
+    List<VeSi> findByNgayXoaIsNull();
 
-	Optional<VeSi> findByIdVeSi(int idVeSi);
+    Optional<VeSi> findByIdVeSi(int idVeSi);
 
-	Optional<VeSi> findByIdVeSiAndNgayXoaIsNull(int idVeSi);
+    Optional<VeSi> findByIdVeSiAndNgayXoaIsNull(int idVeSi);
 
-	long countByNgayXoaIsNull();
+    long countByNgayXoaIsNull();
 
-	Page<VeSi> findByNgayXoaIsNull(Pageable pageable);
+    Page<VeSi> findByNgayXoaIsNull(Pageable pageable);
+
+    // Lấy thêm thông tin từ NguoiDung sang VeSiDTO
+    @Query("SELECT new com.webservice.hethongchothuevesi.dto.dto.VeSiDTO(" +
+            "v.idVeSi, v.idNguoiDung, v.kinhNghiem, v.thongTinDanhGiaChung, " +
+            "n.email, n.ngaySinh, n.gioiTinh, n.soDienThoai, " +
+            "v.ngayBatDauLam, v.capBac, v.ngayLenCap, v.luong, v.trangThai, v.ngayXoa) " +
+            "FROM VeSi v " +
+            "JOIN NguoiDung n ON v.idNguoiDung = n.idNguoiDung " +
+            "WHERE v.ngayXoa IS NULL")
+    List<VeSiDTO> findAllWithNguoiDungInfo();
+
+
+    // Lấy thêm thông tin từ NguoiDung sang VeSiDTO theo idVeSi
+    @Query("SELECT new com.webservice.hethongchothuevesi.dto.dto.VeSiDTO(" +
+            "v.idVeSi, v.idNguoiDung, v.kinhNghiem, v.thongTinDanhGiaChung, " +
+            "n.email, n.ngaySinh, n.gioiTinh, n.soDienThoai, " +
+            "v.ngayBatDauLam, v.capBac, v.ngayLenCap, v.luong, v.trangThai, v.ngayXoa) " +
+            "FROM VeSi v " +
+            "JOIN NguoiDung n ON v.idNguoiDung = n.idNguoiDung " +
+            "WHERE v.idVeSi = :id AND v.ngayXoa IS NULL")
+    VeSiDTO findVeSiWithNguoiDungInfoById(@Param("id") Integer id);
+
 }

@@ -22,6 +22,9 @@ public class VeSi {
 	@Column(name = "idVeSi")
 	Integer idVeSi;
 
+	@Column(name = "idNguoiDung")
+	Integer idNguoiDung;
+
 	@Column(name = "kinhNghiem")
 	Integer kinhNghiem;
 

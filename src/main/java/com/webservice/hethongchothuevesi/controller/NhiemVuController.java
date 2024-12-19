@@ -3,6 +3,7 @@ package com.webservice.hethongchothuevesi.controller;
 import java.util.List;
 
 import com.webservice.hethongchothuevesi.dto.dto.NhiemVuDTO;
+import com.webservice.hethongchothuevesi.dto.request.NhiemVuRequest;
 import com.webservice.hethongchothuevesi.service.NhiemVuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,18 @@ public class NhiemVuController {
 	public ResponseEntity<NhiemVuDTO> createNhiemVu(@RequestBody NhiemVuDTO nhiemVuDTO) {
 		NhiemVuDTO createdNhiemVu = nhiemVuService.createNhiemVu(nhiemVuDTO);
 		return new ResponseEntity<>(createdNhiemVu, HttpStatus.CREATED);
+	}
+
+	// Tạo nhiệm vụ theo idHopDong và danh sách idVeSi
+	@PostMapping("/AddByidHopDongAndListIdVeSi")
+	public ResponseEntity<String> addListNhiemVu(@RequestBody NhiemVuRequest request) {
+		try {
+			nhiemVuService.addListNhiemVu(request);
+			return ResponseEntity.ok("Danh sách nhiệm vụ đã được thêm thành công.");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Lỗi khi thêm danh sách nhiệm vụ: " + e.getMessage());
+		}
 	}
 
 	// Lấy nhiệm vụ theo ID

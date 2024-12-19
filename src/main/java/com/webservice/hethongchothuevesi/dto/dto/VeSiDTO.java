@@ -1,12 +1,12 @@
 package com.webservice.hethongchothuevesi.dto.dto;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -15,22 +15,27 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class VeSiDTO {
-	private Integer idVeSi;
-	private Integer idNguoiDung;
-	private Integer kinhNghiem;
-	private String thongTinDanhGiaChung;
+    Integer idVeSi;
+    Integer idNguoiDung;
+    Integer kinhNghiem;
+    String thongTinDanhGiaChung;
+    String emailVeSi;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    LocalDate ngaySinhVeSi;
+    String gioiTinhVeSi;
+    String sdtVeSi;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-	private LocalDate ngayBatDauLam;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    LocalDate ngayBatDauLam;
 
-	private String capBac;
+    String capBac;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-	private LocalDate ngayLenCap;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    LocalDate ngayLenCap;
 
-	private BigDecimal luong;
-	private String trangThai;
+    BigDecimal luong;
+    String trangThai;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
-	private LocalDateTime ngayXoa;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
+    LocalDateTime ngayXoa;
 }
