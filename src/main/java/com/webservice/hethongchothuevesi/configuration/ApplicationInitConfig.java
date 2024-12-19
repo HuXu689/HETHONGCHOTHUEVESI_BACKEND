@@ -19,53 +19,53 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 public class ApplicationInitConfig {
-    PasswordEncoder passwordEncoder;
-    NguoiDungRepository nguoiDungRepository;
-    VaiTroRepository vaiTroRepository;
-    NguoiDungVaiTroRepository nguoiDungVaiTroRepository; // Inject repository NguoiDungVaiTro
+	PasswordEncoder passwordEncoder;
+	NguoiDungRepository nguoiDungRepository;
+	VaiTroRepository vaiTroRepository;
+	NguoiDungVaiTroRepository nguoiDungVaiTroRepository; // Inject repository NguoiDungVaiTro
 
-    @Bean
-    ApplicationRunner applicationRunner() {
-        return args -> {
-            // Kiểm tra nếu tài khoản admin đã tồn tại
-            if (nguoiDungRepository.findByTenDangNhap("admin1234").isEmpty()) {
-                // Tạo tài khoản admin
-                NguoiDung nguoiDung = NguoiDung.builder()
-                        .tenDangNhap("admin1234")
-                        .matKhau(passwordEncoder.encode("admin1234"))
-                        .build();
+	@Bean
+	ApplicationRunner applicationRunner() {
+		return args -> {
+			// Kiểm tra nếu tài khoản admin đã tồn tại
+			if (nguoiDungRepository.findByTenDangNhap("admin1234").isEmpty()) {
+				// Tạo tài khoản admin
+				NguoiDung nguoiDung = NguoiDung.builder()
+						.tenDangNhap("admin1234")
+						.matKhau(passwordEncoder.encode("admin1234"))
+						.build();
 
-                // Lưu tài khoản người dùng admin
-                nguoiDungRepository.save(nguoiDung);
+				// Lưu tài khoản người dùng admin
+				nguoiDungRepository.save(nguoiDung);
 
-                // Tạo các bản ghi trong bảng NguoiDungVaiTro
-                NguoiDungVaiTro nguoiDungVaiTroKhachHang = NguoiDungVaiTro.builder()
-                        .idNguoiDung(nguoiDung.getIdNguoiDung())
-                        .idVaiTro(1)
-                        .build();
+				// Tạo các bản ghi trong bảng NguoiDungVaiTro
+				NguoiDungVaiTro nguoiDungVaiTroKhachHang = NguoiDungVaiTro.builder()
+						.idNguoiDung(nguoiDung.getIdNguoiDung())
+						.idVaiTro(1)
+						.build();
 
-                NguoiDungVaiTro nguoiDungVaiTroAdmin = NguoiDungVaiTro.builder()
-                        .idNguoiDung(nguoiDung.getIdNguoiDung())
-                        .idVaiTro(4)
-                        .build();
+				NguoiDungVaiTro nguoiDungVaiTroAdmin = NguoiDungVaiTro.builder()
+						.idNguoiDung(nguoiDung.getIdNguoiDung())
+						.idVaiTro(4)
+						.build();
 
-                NguoiDungVaiTro nguoiDungVaiTroVeSi = NguoiDungVaiTro.builder()
-                        .idNguoiDung(nguoiDung.getIdNguoiDung())
-                        .idVaiTro(2)
-                        .build();
-                NguoiDungVaiTro nguoiDungVaiTroNhanVien = NguoiDungVaiTro.builder()
-                        .idNguoiDung(nguoiDung.getIdNguoiDung())
-                        .idVaiTro(3)
-                        .build();
+				NguoiDungVaiTro nguoiDungVaiTroVeSi = NguoiDungVaiTro.builder()
+						.idNguoiDung(nguoiDung.getIdNguoiDung())
+						.idVaiTro(2)
+						.build();
+				NguoiDungVaiTro nguoiDungVaiTroNhanVien = NguoiDungVaiTro.builder()
+						.idNguoiDung(nguoiDung.getIdNguoiDung())
+						.idVaiTro(3)
+						.build();
 
-                // Lưu các vai trò vào bảng NguoiDungVaiTro
-                nguoiDungVaiTroRepository.save(nguoiDungVaiTroKhachHang);
-                nguoiDungVaiTroRepository.save(nguoiDungVaiTroAdmin);
-                nguoiDungVaiTroRepository.save(nguoiDungVaiTroVeSi);
-                nguoiDungVaiTroRepository.save(nguoiDungVaiTroNhanVien);
+				// Lưu các vai trò vào bảng NguoiDungVaiTro
+				nguoiDungVaiTroRepository.save(nguoiDungVaiTroKhachHang);
+				nguoiDungVaiTroRepository.save(nguoiDungVaiTroAdmin);
+				nguoiDungVaiTroRepository.save(nguoiDungVaiTroVeSi);
+				nguoiDungVaiTroRepository.save(nguoiDungVaiTroNhanVien);
 
-                log.warn("Đã tạo tài khoản admin với tài khoản và mật khẩu là: admin1234");
-            }
-        };
-    }
+				log.warn("Đã tạo tài khoản admin với tài khoản và mật khẩu là: admin1234");
+			}
+		};
+	}
 }

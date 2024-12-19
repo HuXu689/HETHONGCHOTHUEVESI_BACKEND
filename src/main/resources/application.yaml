@@ -15,7 +15,7 @@ spring:
           google:
             client-id: 1019379455851-ql3lienhckt4aba3rrf91fi4219d4kas.apps.googleusercontent.com
             client-secret: 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
-            redirect-uri: "{baseUrl}/auth/google/callback"
+            redirect-uri: '{baseUrl}/auth/google/callback'
             scope:
               - KhachHang
             authorization-grant-type: authorization_code
@@ -40,23 +40,23 @@ spring:
     default-encoding: UTF-8
     mail-from: bodyguardhethongchothuevesi@gmail.com
   application:
-    serverLocal: "http://localhost:3000"
-    serverName: "BODYGUARD Hệ thống cho thuê vệ sĩ"
+    serverLocal: 'http://localhost:3000'
+    serverName: 'BODYGUARD Hệ thống cho thuê vệ sĩ'
   datasource:
-    url: jdbc:mysql://localhost:3306/HETHONGCHOTHUEVESI  # URL kết nối MySQL
+    url: jdbc:mysql://localhost:3306/hethongchothuevesi # URL kết nối MySQL
     #    url: jdbc:mysql://172.17.0.2/HETHONGCHOTHUEVESI  # URL kết nối MySQL
-    username: root  # Tên người dùng MySQL
-    password: root  # Mật khẩu người dùng MySQL
-    driver-class-name: com.mysql.cj.jdbc.Driver  # Driver cho MySQL
+    username: root # Tên người dùng MySQL
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver # Driver cho MySQL
   jpa:
     hibernate:
-      ddl-auto: update  # Hibernate tự động cập nhật schema
+      ddl-auto: update # Hibernate tự động cập nhật schema
       naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl  # Cấu hình chiến lược đặt tên
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl # Cấu hình chiến lược đặt tên
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect  # Sử dụng MySQL dialect cho Hibernate
-    show-sql: true  # Hiển thị các câu lệnh SQL trong console
+        dialect: org.hibernate.dialect.MySQL8Dialect # Sử dụng MySQL dialect cho Hibernate
+    show-sql: true # Hiển thị các câu lệnh SQL trong console
 
 jwt:
-  signerKey: "QQSXWNtiP/T2aZiWnIlOgGCH+Wi2w20a6+ATaueWc5K3dybLoGMuNmAseN8oXGk6"  # Key dùng để ký JWT token
+  signerKey: 'QQSXWNtiP/T2aZiWnIlOgGCH+Wi2w20a6+ATaueWc5K3dybLoGMuNmAseN8oXGk6' # Key dùng để ký JWT token

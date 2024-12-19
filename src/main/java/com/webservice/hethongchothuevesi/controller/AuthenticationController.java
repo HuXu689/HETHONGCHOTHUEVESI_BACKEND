@@ -1,5 +1,11 @@
 package com.webservice.hethongchothuevesi.controller;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.text.ParseException;
+import java.util.Collections;
+import java.util.Optional;
+
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
@@ -27,115 +33,110 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.text.ParseException;
-import java.util.Collections;
-import java.util.Optional;
-
 @Slf4j
 @RestController
 @RequestMapping("/Auth")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthenticationController {
-    AuthenticationService authenticationService;
-    @NonFinal
-    @Value("${spring.security.oauth2.client.registration.google.client-id}")
-    String clientId;
+	AuthenticationService authenticationService;
 
-    @PostMapping("/LoginNguoiDung")
-    public ApiResponse<AuthenticationResponse> checkNguoiDung(
-            @RequestBody AuthenticationRequest request, PushBuilder pushBuilder) {
-        var result = authenticationService.checkNguoiDung(request);
-        return ApiResponse.<AuthenticationResponse>builder().result(result).build();
-    }
+	@NonFinal
+	@Value("${spring.security.oauth2.client.registration.google.client-id}")
+	String clientId;
 
-    @PostMapping("/Introspect")
-    public ApiResponse<IntrospectResponse> introspect(@RequestBody IntrospectRequest request, PushBuilder pushBuilder)
-            throws ParseException, JOSEException {
-        var result = authenticationService.introspect(request);
-        return ApiResponse.<IntrospectResponse>builder().result(result).build();
-    }
+	@PostMapping("/LoginNguoiDung")
+	public ApiResponse<AuthenticationResponse> checkNguoiDung(
+			@RequestBody AuthenticationRequest request, PushBuilder pushBuilder) {
+		var result = authenticationService.checkNguoiDung(request);
+		return ApiResponse.<AuthenticationResponse>builder().result(result).build();
+	}
 
-    @PostMapping("/LogoutNguoiDung")
-    public ApiResponse<Void> logout(@RequestBody LogoutRequest request, PushBuilder pushBuilder)
-            throws ParseException, JOSEException {
-        authenticationService.logout(request);
-        return ApiResponse.<Void>builder().build();
-    }
+	@PostMapping("/Introspect")
+	public ApiResponse<IntrospectResponse> introspect(@RequestBody IntrospectRequest request, PushBuilder pushBuilder)
+			throws ParseException, JOSEException {
+		var result = authenticationService.introspect(request);
+		return ApiResponse.<IntrospectResponse>builder().result(result).build();
+	}
 
-    private final NguoiDungRepository nguoiDungRepository;
-    private final NguoiDungVaiTroRepository nguoiDungVaiTroRepository;
-    private static final GsonFactory GSON_FACTORY = GsonFactory.getDefaultInstance();
+	@PostMapping("/LogoutNguoiDung")
+	public ApiResponse<Void> logout(@RequestBody LogoutRequest request, PushBuilder pushBuilder)
+			throws ParseException, JOSEException {
+		authenticationService.logout(request);
+		return ApiResponse.<Void>builder().build();
+	}
 
-    @PostMapping("/LoginGoogle")
-    public ApiResponse<AuthenticationResponse> loginWithGoogle(@RequestBody GoogleLoginRequest googleLoginRequest) {
-        String idTokenString = googleLoginRequest.getToken();
+	private final NguoiDungRepository nguoiDungRepository;
+	private final NguoiDungVaiTroRepository nguoiDungVaiTroRepository;
+	private static final GsonFactory GSON_FACTORY = GsonFactory.getDefaultInstance();
 
-        try {
-            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
-                    GoogleNetHttpTransport.newTrustedTransport(), GSON_FACTORY)
-                    .setAudience(Collections.singletonList(clientId)) // clientId từ Google OAuth
-                    .build();
+	@PostMapping("/LoginGoogle")
+	public ApiResponse<AuthenticationResponse> loginWithGoogle(@RequestBody GoogleLoginRequest googleLoginRequest) {
+		String idTokenString = googleLoginRequest.getToken();
 
-            GoogleIdToken idToken = verifier.verify(idTokenString);
-            if (idToken == null) {
-                throw new AppException(ErrorCode.INVALID_GOOGLE_TOKEN);
-            }
+		try {
+			GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
+							GoogleNetHttpTransport.newTrustedTransport(), GSON_FACTORY)
+					.setAudience(Collections.singletonList(clientId)) // clientId từ Google OAuth
+					.build();
 
-            GoogleIdToken.Payload payload = idToken.getPayload();
+			GoogleIdToken idToken = verifier.verify(idTokenString);
+			if (idToken == null) {
+				throw new AppException(ErrorCode.INVALID_GOOGLE_TOKEN);
+			}
 
-            // Lấy thông tin người dùng từ token
-            String email = payload.getEmail();
-            boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
-            String name = (String) payload.get("name");
+			GoogleIdToken.Payload payload = idToken.getPayload();
 
-            if (!emailVerified) {
-                throw new AppException(ErrorCode.EMAIL_NOT_VERIFIED);
-            }
+			// Lấy thông tin người dùng từ token
+			String email = payload.getEmail();
+			boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
+			String name = (String) payload.get("name");
 
-            // Kiểm tra xem người dùng đã tồn tại trong hệ thống chưa
-            Optional<NguoiDung> nguoiDungOptional = nguoiDungRepository.findByEmail(email);
-            NguoiDung nguoiDung;
+			if (!emailVerified) {
+				throw new AppException(ErrorCode.EMAIL_NOT_VERIFIED);
+			}
 
-            if (nguoiDungOptional.isPresent()) {
-                nguoiDung = nguoiDungOptional.get();
-            } else {
-                // Tạo người dùng mới nếu chưa tồn tại
-                nguoiDung = new NguoiDung();
-                nguoiDung.setTenDangNhap(email); // Sử dụng email làm tên đăng nhập
-                nguoiDung.setEmail(email);
-                nguoiDung.setHoTen(name != null ? name : ""); // Đảm bảo không null
-                // Đặt mật khẩu mặc định hoặc sử dụng mã hóa tùy chọn
-                nguoiDung.setMatKhau(authenticationService.encryption("admin123")); // Bạn có thể thay đổi logic này
-                nguoiDung.setTrangThai("Hoạt động");
-                nguoiDungRepository.save(nguoiDung); // Lưu người dùng trước để có ID
+			// Kiểm tra xem người dùng đã tồn tại trong hệ thống chưa
+			Optional<NguoiDung> nguoiDungOptional = nguoiDungRepository.findByEmail(email);
+			NguoiDung nguoiDung;
 
-                // Đặt vai trò là Khách hàng
-                NguoiDungVaiTro nguoiDungVaiTro = NguoiDungVaiTro.builder()
-                        .idNguoiDung(nguoiDung.getIdNguoiDung())
-                        .idVaiTro(1) // 1 là ID của vai trò "Khách hàng" trong bảng VaiTro
-                        .build();
-                nguoiDungVaiTroRepository.save(nguoiDungVaiTro);
-            }
+			if (nguoiDungOptional.isPresent()) {
+				nguoiDung = nguoiDungOptional.get();
+			} else {
+				// Tạo người dùng mới nếu chưa tồn tại
+				nguoiDung = new NguoiDung();
+				nguoiDung.setTenDangNhap(email); // Sử dụng email làm tên đăng nhập
+				nguoiDung.setEmail(email);
+				nguoiDung.setHoTen(name != null ? name : ""); // Đảm bảo không null
+				// Đặt mật khẩu mặc định hoặc sử dụng mã hóa tùy chọn
+				nguoiDung.setMatKhau(authenticationService.encryption("admin123")); // Bạn có thể thay đổi logic này
+				nguoiDung.setTrangThai("Hoạt động");
+				nguoiDungRepository.save(nguoiDung); // Lưu người dùng trước để có ID
 
-            // Tạo JWT token cho người dùng
-            String jwtToken = authenticationService.generateToken(nguoiDung);
+				// Đặt vai trò là Khách hàng
+				NguoiDungVaiTro nguoiDungVaiTro = NguoiDungVaiTro.builder()
+						.idNguoiDung(nguoiDung.getIdNguoiDung())
+						.idVaiTro(1) // 1 là ID của vai trò "Khách hàng" trong bảng VaiTro
+						.build();
+				nguoiDungVaiTroRepository.save(nguoiDungVaiTro);
+			}
 
-            AuthenticationResponse authResponse = AuthenticationResponse.builder()
-                    .token(jwtToken)
-                    .authenticated(true)
-                    .build();
+			// Tạo JWT token cho người dùng
+			String jwtToken = authenticationService.generateToken(nguoiDung);
 
-            return ApiResponse.<AuthenticationResponse>builder()
-                    .result(authResponse)
-                    .code(0) // Thêm trường code
-                    .build();
+			AuthenticationResponse authResponse = AuthenticationResponse.builder()
+					.token(jwtToken)
+					.authenticated(true)
+					.build();
 
-        } catch (GeneralSecurityException | IOException e) {
-            log.error("Lỗi xác thực Google ID: {}", e.getMessage());
-            throw new AppException(ErrorCode.INVALID_GOOGLE_TOKEN);
-        }
-    }
+			return ApiResponse.<AuthenticationResponse>builder()
+					.result(authResponse)
+					.code(0) // Thêm trường code
+					.build();
+
+		} catch (GeneralSecurityException | IOException e) {
+			log.error("Lỗi xác thực Google ID: {}", e.getMessage());
+			throw new AppException(ErrorCode.INVALID_GOOGLE_TOKEN);
+		}
+	}
 }
