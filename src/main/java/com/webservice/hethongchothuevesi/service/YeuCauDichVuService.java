@@ -27,7 +27,7 @@ public class YeuCauDichVuService {
     // Create: Tạo mới data
     public YeuCauDichVuDTO createYeuCauDichVu(YeuCauDichVuDTO yeuCauDichVuDTO) {
         YeuCauDichVu yeuCauDichVu = yeuCauDichVuMapper.toEntity(yeuCauDichVuDTO);
-        yeuCauDichVu.setTrangThai("Hoạt động");
+        yeuCauDichVu.setTrangThai("Chưa xác nhận");
         yeuCauDichVu = yeuCauDichVuRepository.save(yeuCauDichVu);
         return yeuCauDichVuMapper.toDTO(yeuCauDichVu);
     }
@@ -52,6 +52,23 @@ public class YeuCauDichVuService {
     // Read (get all): Lấy tất cả data chưa bị xóa mềm
     public List<YeuCauDichVuDTO> getAllYeuCauDichVu() {
         List<YeuCauDichVu> yeuCauDichVus = yeuCauDichVuRepository.findByNgayXoaIsNull();
+        List<YeuCauDichVuDTO> yeuCauDichVuDTOs = yeuCauDichVuMapper.toListDto(yeuCauDichVus);
+
+        // Lấy tên danh mục dịch vụ cho từng yêu cầu dịch vụ
+        for (YeuCauDichVuDTO dto : yeuCauDichVuDTOs) {
+            Optional<String> tenDanhMucDichVu = danhMucDichVuRepository
+                    .findByIdDanhMucDichVu(dto.getIdDanhMucDichVu())
+                    .map(DanhMucDichVu::getTenDichVu);
+
+            tenDanhMucDichVu.ifPresent(dto::setTenDanhMucDichVu);
+        }
+
+        return yeuCauDichVuDTOs;
+    }
+
+    // Read (get all by idNguoiDung): Lấy tất cả data chưa bị xóa mềm với idNguoiDung
+    public List<YeuCauDichVuDTO> getAllYeuCauDichVuByIdNguoiDung(int idNguoiDung) {
+        List<YeuCauDichVu> yeuCauDichVus = yeuCauDichVuRepository.findByIdNguoiDungAndNgayXoaIsNull(idNguoiDung);
         List<YeuCauDichVuDTO> yeuCauDichVuDTOs = yeuCauDichVuMapper.toListDto(yeuCauDichVus);
 
         // Lấy tên danh mục dịch vụ cho từng yêu cầu dịch vụ

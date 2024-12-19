@@ -23,7 +23,7 @@ public class HopDongService {
     // Create: Tạo mới data
     public HopDongDTO createHopDong(HopDongDTO hopDongDTO) {
         HopDong hopDong = hopDongMapper.toEntity(hopDongDTO);
-        hopDong.setTrangThai("Hoạt động");
+        hopDong.setTrangThai("Chưa phân công");
         hopDong = hopDongRepository.save(hopDong);
         return hopDongMapper.toDTO(hopDong);
     }
@@ -39,6 +39,11 @@ public class HopDongService {
     // Read (get all): Lấy tất cả data chưa bị xóa mềm
     public List<HopDongDTO> getAllHopDong() {
         return hopDongMapper.toListDto(hopDongRepository.findByNgayXoaIsNull());
+    }
+
+    // Read (get all): Lấy tất cả data theo idNguoiDung chưa bị xóa mềm
+    public List<HopDongDTO> getHopDongByIdNguoiDungAndNgayXoaIsNull(Integer idNguoiDung) {
+        return hopDongMapper.toListDto(hopDongRepository.findAllHopDongByIdNguoiDungAndNgayXoaIsNull(idNguoiDung));
     }
 
     // Update: Cập nhật thông tin

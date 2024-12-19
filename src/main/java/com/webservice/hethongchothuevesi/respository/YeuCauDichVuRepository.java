@@ -16,6 +16,8 @@ import java.util.Optional;
 public interface YeuCauDichVuRepository extends JpaRepository<YeuCauDichVu, Integer> {
     List<YeuCauDichVu> findByNgayXoaIsNull();
 
+    List<YeuCauDichVu> findByIdNguoiDungAndNgayXoaIsNull(int idNguoiDung);
+
     Optional<YeuCauDichVu> findByIdYeuCauDichVu(int idYeuCauDichVu);
 
     Optional<YeuCauDichVu> findByIdYeuCauDichVuAndNgayXoaIsNull(int idYeuCauDichVu);

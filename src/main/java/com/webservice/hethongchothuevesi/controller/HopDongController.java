@@ -44,6 +44,12 @@ public class HopDongController {
         return new ResponseEntity<>(updatedHopDong, HttpStatus.OK);
     }
 
+    @GetMapping("/GetByIdNguoiDung/{idNguoiDung}")
+    public ResponseEntity<List<HopDongDTO>> getHopDongByNguoiDung(@PathVariable Integer idNguoiDung) {
+        List<HopDongDTO> hopDongs = hopDongService.getHopDongByIdNguoiDungAndNgayXoaIsNull(idNguoiDung);
+        return ResponseEntity.ok(hopDongs);
+    }
+
     // Xóa mềm hợp đồng
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteHopDong(@PathVariable Integer id) {
