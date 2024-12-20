@@ -23,7 +23,7 @@ public class HoaDonService {
 	// Create: Tạo mới data
 	public HoaDonDTO createHoaDon(HoaDonDTO hoaDonDTO) {
 		HoaDon hoaDon = hoaDonMapper.toEntity(hoaDonDTO);
-		hoaDon.setTrangThai("Hoạt động");
+		hoaDon.setTrangThai("Chưa thanh toán");
 		hoaDon = hoaDonRepository.save(hoaDon);
 		return hoaDonMapper.toDTO(hoaDon);
 	}
