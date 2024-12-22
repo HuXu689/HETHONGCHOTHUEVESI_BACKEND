@@ -49,6 +49,10 @@ public class VeSiService {
         return veSiMapper.toDTO(veSiRepository.save(veSi));
     }
 
+    public List<VeSiDTO> getVeSiListByIdHopDong(Integer idHopDong) {
+        return veSiRepository.findVeSiDTOsByIdHopDong(idHopDong);
+    }
+
     // Soft Delete: Xóa mềm (đặt ngày xóa)
     public void deleteVeSi(Integer id) {
         VeSi veSi = veSiRepository.findById(id).orElseThrow(() -> new RuntimeException("Vệ sĩ không tồn tại"));
