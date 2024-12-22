@@ -1,5 +1,6 @@
 package com.webservice.hethongchothuevesi.respository;
 
+import com.webservice.hethongchothuevesi.dto.dto.NhiemVuDTO;
 import com.webservice.hethongchothuevesi.entity.NhiemVu;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
@@ -40,27 +41,35 @@ public interface NhiemVuRepository extends JpaRepository<NhiemVu, Integer> {
     // Lấy danh sách nhiệm vụ chưa bị xóa với phân trang
     Page<NhiemVu> findByNgayXoaIsNull(Pageable pageable);
 
-    // Lấy tất cả nhiệm vụ theo idVeSi chưa bị xóa mềm
-    @Query("SELECT n FROM NhiemVu n WHERE n.idVeSi = :idVeSi AND n.ngayXoa IS NULL")
-    List<NhiemVu> findAllByIdVeSiAndNgayXoaIsNull(@Param("idVeSi") Integer idVeSi);
+    // Lấy tất cả nhiệm vụ theo idVeSi chưa bị xóa mềm và trả về NhiemVuDTO
+    @Query("SELECT new com.webservice.hethongchothuevesi.dto.dto.NhiemVuDTO(" +
+            "n.idNhiemVu, n.idHopDong, n.idVeSi, n.ngayBatDau, n.ngayKetThuc, n.capBac, " +
+            "n.noiDung, n.danhGiaKyNangChuyenMon, n.danhGiaXuLyTinhHuong, n.danhGiaThaiDoDaoDuc, " +
+            "n.danhGiaGiaoTiep, n.danhGiaNgoaiHinh, n.thongTinDanhGia, n.trangThai, n.ngayXoa) " +
+            "FROM NhiemVu n WHERE n.idVeSi = :idVeSi AND n.ngayXoa IS NULL")
+    List<NhiemVuDTO> findAllByIdVeSiAndNgayXoaIsNull(@Param("idVeSi") Integer idVeSi);
 
     // Lấy tất cả nhiệm vụ theo idVeSi và trạng thái chưa bị xóa mềm
-    @Query("SELECT n FROM NhiemVu n WHERE n.idVeSi = :idVeSi AND n.trangThai = :trangThai AND n.ngayXoa IS NULL")
-    List<NhiemVu> findAllByIdVeSiAndTrangThaiAndNgayXoaIsNull(@Param("idVeSi") Integer idVeSi, @Param("trangThai") String trangThai);
+    @Query("SELECT new com.webservice.hethongchothuevesi.dto.dto.NhiemVuDTO(" +
+            "n.idNhiemVu, n.idHopDong, n.idVeSi, n.ngayBatDau, n.ngayKetThuc, n.capBac, " +
+            "n.noiDung, n.danhGiaKyNangChuyenMon, n.danhGiaXuLyTinhHuong, n.danhGiaThaiDoDaoDuc, " +
+            "n.danhGiaGiaoTiep, n.danhGiaNgoaiHinh, n.thongTinDanhGia, n.trangThai, n.ngayXoa) " +
+            "FROM NhiemVu n WHERE n.idVeSi = :idVeSi AND n.trangThai = :trangThai AND n.ngayXoa IS NULL")
+    List<NhiemVuDTO> findAllByIdVeSiAndTrangThaiAndNgayXoaIsNull(@Param("idVeSi") Integer idVeSi, @Param("trangThai") String trangThai);
 
     // Lấy tất cả nhiệm vụ theo trạng thái chưa bị xóa mềm
-    @Query("SELECT n FROM NhiemVu n WHERE n.trangThai = :trangThai AND n.ngayXoa IS NULL")
-    List<NhiemVu> findAllByTrangThaiAndNgayXoaIsNull(@Param("trangThai") String trangThai);
+    @Query("SELECT new com.webservice.hethongchothuevesi.dto.dto.NhiemVuDTO(" +
+            "n.idNhiemVu, n.idHopDong, n.idVeSi, n.ngayBatDau, n.ngayKetThuc, n.capBac, " +
+            "n.noiDung, n.danhGiaKyNangChuyenMon, n.danhGiaXuLyTinhHuong, n.danhGiaThaiDoDaoDuc, " +
+            "n.danhGiaGiaoTiep, n.danhGiaNgoaiHinh, n.thongTinDanhGia, n.trangThai, n.ngayXoa) " +
+            "FROM NhiemVu n WHERE n.trangThai = :trangThai AND n.ngayXoa IS NULL")
+    List<NhiemVuDTO> findAllByTrangThaiAndNgayXoaIsNull(@Param("trangThai") String trangThai);
 
-    // Lấy tất cả nhiệm vụ theo idVeSi (bao gồm đã xóa mềm)
-    @Query("SELECT n FROM NhiemVu n WHERE n.idVeSi = :idVeSi")
-    List<NhiemVu> findAllByIdVeSi(@Param("idVeSi") Integer idVeSi);
-
-    // Lấy tất cả nhiệm vụ theo idVeSi và trạng thái (bao gồm đã xóa mềm)
-    @Query("SELECT n FROM NhiemVu n WHERE n.idVeSi = :idVeSi AND n.trangThai = :trangThai")
-    List<NhiemVu> findAllByIdVeSiAndTrangThai(@Param("idVeSi") Integer idVeSi, @Param("trangThai") String trangThai);
-
-    // Lấy tất cả nhiệm vụ theo trạng thái (bao gồm đã xóa mềm)
-    @Query("SELECT n FROM NhiemVu n WHERE n.trangThai = :trangThai")
-    List<NhiemVu> findAllByTrangThai(@Param("trangThai") String trangThai);
+    // Nếu bạn cần tìm một nhiệm vụ cụ thể theo idHopDong và idVeSi
+    @Query("SELECT new com.webservice.hethongchothuevesi.dto.dto.NhiemVuDTO(" +
+            "n.idNhiemVu, n.idHopDong, n.idVeSi, n.ngayBatDau, n.ngayKetThuc, n.capBac, " +
+            "n.noiDung, n.danhGiaKyNangChuyenMon, n.danhGiaXuLyTinhHuong, n.danhGiaThaiDoDaoDuc, " +
+            "n.danhGiaGiaoTiep, n.danhGiaNgoaiHinh, n.thongTinDanhGia, n.trangThai, n.ngayXoa) " +
+            "FROM NhiemVu n WHERE n.idHopDong = :idHopDong AND n.idVeSi = :idVeSi AND n.ngayXoa IS NULL")
+    Optional<NhiemVuDTO> findByIdHopDongAndIdVeSiAndNgayXoaIsNull(@Param("idHopDong") Integer idHopDong, @Param("idVeSi") Integer idVeSi);
 }

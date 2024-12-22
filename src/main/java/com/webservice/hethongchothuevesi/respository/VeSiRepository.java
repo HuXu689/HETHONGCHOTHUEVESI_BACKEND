@@ -43,4 +43,24 @@ public interface VeSiRepository extends JpaRepository<VeSi, Integer> {
             + "JOIN NguoiDung n ON v.idNguoiDung = n.idNguoiDung "
             + "WHERE v.idVeSi = :id AND v.ngayXoa IS NULL")
     VeSiDTO findVeSiWithNguoiDungInfoById(@Param("id") Integer id);
+
+    // Thêm phương thức để lấy VeSiDTO với các giá trị trung bình đánh giá
+    @Query("SELECT new com.webservice.hethongchothuevesi.dto.dto.VeSiDTO("
+            + "v.idVeSi, v.idNguoiDung, nd.hoTen, v.kinhNghiem, v.thongTinDanhGiaChung, "
+            + "nd.email, nd.ngaySinh, nd.gioiTinh, nd.soDienThoai, "
+            + "v.ngayBatDauLam, v.capBac, v.ngayLenCap, v.luong, v.trangThai, v.ngayXoa, "
+            + "AVG(nv.danhGiaKyNangChuyenMon), "
+            + "AVG(nv.danhGiaXuLyTinhHuong), "
+            + "AVG(nv.danhGiaThaiDoDaoDuc), "
+            + "AVG(nv.danhGiaGiaoTiep), "
+            + "AVG(nv.danhGiaNgoaiHinh)) "
+            + "FROM VeSi v "
+            + "JOIN NguoiDung nd ON v.idNguoiDung = nd.idNguoiDung "
+            + "LEFT JOIN NhiemVu nv ON v.idVeSi = nv.idVeSi AND nv.ngayXoa IS NULL "
+            + "WHERE v.idVeSi = :idVeSi AND v.ngayXoa IS NULL "
+            + "GROUP BY v.idVeSi, v.idNguoiDung, nd.hoTen, v.kinhNghiem, v.thongTinDanhGiaChung, "
+            + "nd.email, nd.ngaySinh, nd.gioiTinh, nd.soDienThoai, "
+            + "v.ngayBatDauLam, v.capBac, v.ngayLenCap, v.luong, v.trangThai, v.ngayXoa")
+    VeSiDTO findVeSiDTOWithAverageRatingsByIdVeSi(@Param("idVeSi") Integer idVeSi);
+
 }

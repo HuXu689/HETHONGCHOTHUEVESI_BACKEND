@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -61,9 +62,24 @@ public class NhiemVuService {
         return nhiemVuMapper.toDTO(nhiemVu);
     }
 
-    // Read (get all): Lấy tất cả data chưa bị xóa mềm
+    // Lấy tất cả data chưa bị xóa mềm
     public List<NhiemVuDTO> getAllNhiemVu() {
         return nhiemVuMapper.toListDto(nhiemVuRepository.findByNgayXoaIsNull());
+    }
+
+    // Lấy nhiệm vụ theo idVeSi chưa bị xóa mềm
+    public List<NhiemVuDTO> getNhiemVuByIdVeSi(Integer idVeSi) {
+        return nhiemVuRepository.findAllByIdVeSiAndNgayXoaIsNull(idVeSi);
+    }
+
+    // Lấy nhiệm vụ theo idVeSi và trạng thái chưa bị xóa mềm
+    public List<NhiemVuDTO> getNhiemVuByIdVeSiAndTrangThai(Integer idVeSi, String trangThai) {
+        return nhiemVuRepository.findAllByIdVeSiAndTrangThaiAndNgayXoaIsNull(idVeSi, trangThai);
+    }
+
+    // Lấy nhiệm vụ theo trạng thái chưa bị xóa mềm
+    public List<NhiemVuDTO> getNhiemVuByTrangThai(String trangThai) {
+        return nhiemVuRepository.findAllByTrangThaiAndNgayXoaIsNull(trangThai);
     }
 
     // Update: Cập nhật thông tin
@@ -75,6 +91,11 @@ public class NhiemVuService {
         nhiemVuMapper.updateEntity(nhiemVu, request);
 
         return nhiemVuMapper.toDTO(nhiemVuRepository.save(nhiemVu));
+    }
+
+    // Tìm một nhiệm vụ cụ thể theo idHopDong và idVeSi, chưa bị xóa mềm (trả về DTO)
+    public Optional<NhiemVuDTO> getNhiemVuDTOByIdHopDongAndIdVeSi(Integer idHopDong, Integer idVeSi) {
+        return nhiemVuRepository.findByIdHopDongAndIdVeSiAndNgayXoaIsNull(idHopDong, idVeSi);
     }
 
     // Soft Delete: Xóa mềm (đặt ngày xóa)
