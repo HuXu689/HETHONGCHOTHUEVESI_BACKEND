@@ -1,11 +1,11 @@
 package com.webservice.hethongchothuevesi.entity;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -16,53 +16,56 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "HopDong")
 public class HopDong {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idHopDong")
-	Integer idHopDong;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idHopDong")
+    Integer idHopDong;
 
-	@Column(name = "idYeuCauDichVu")
-	Integer idYeuCauDichVu;
+    @Column(name = "idYeuCauDichVu")
+    Integer idYeuCauDichVu;
 
-	@Column(name = "hoTenKhachHang")
-	String hoTenKhachHang;
+    @Column(name = "hoTenKhachHang")
+    String hoTenKhachHang;
 
-	@Column(name = "soDienThoai")
-	String soDienThoai;
+    @Column(name = "soDienThoai")
+    String soDienThoai;
 
-	@Column(name = "anh")
-	String anh;
+    @Column(name = "idAnh")
+    String idAnh;
 
-	@Column(name = "soCCCD")
-	String soCccd;
+    @Column(name = "anh")
+    String anh;
 
-	@Column(name = "diaDiem")
-	String diaDiem;
+    @Column(name = "soCCCD")
+    String soCccd;
 
-	@Column(name = "soLuongVeSi")
-	Integer soLuongVeSi;
+    @Column(name = "diaDiem")
+    String diaDiem;
 
-	@Column(name = "thoiGianBatDau")
-	LocalDateTime thoiGianBatDau;
+    @Column(name = "soLuongVeSi")
+    Integer soLuongVeSi;
 
-	@Column(name = "thoiGianKetThuc")
-	LocalDateTime thoiGianKetThuc;
+    @Column(name = "thoiGianBatDau")
+    LocalDateTime thoiGianBatDau;
 
-	@Column(name = "tongChiPhi")
-	BigDecimal tongChiPhi;
+    @Column(name = "thoiGianKetThuc")
+    LocalDateTime thoiGianKetThuc;
 
-	@Column(name = "ghiChu")
-	String ghiChu;
+    @Column(name = "tongChiPhi")
+    BigDecimal tongChiPhi;
 
-	@Column(name = "soSaoDanhGia")
-	Integer soSaoDanhGia;
+    @Column(name = "ghiChu")
+    String ghiChu;
 
-	@Column(name = "thongTinDanhGia")
-	String thongTinDanhGia;
+    @Column(name = "soSaoDanhGia")
+    Integer soSaoDanhGia;
 
-	@Column(name = "trangThai")
-	String trangThai;
+    @Column(name = "thongTinDanhGia")
+    String thongTinDanhGia;
 
-	@Column(name = "ngayXoa")
-	LocalDateTime ngayXoa;
+    @Column(name = "trangThai")
+    String trangThai;
+
+    @Column(name = "ngayXoa")
+    LocalDateTime ngayXoa;
 }

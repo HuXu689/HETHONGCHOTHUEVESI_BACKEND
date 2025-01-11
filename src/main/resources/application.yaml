@@ -57,6 +57,18 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect # Sử dụng MySQL dialect cho Hibernate
     show-sql: true # Hiển thị các câu lệnh SQL trong console
-
+vnpay:
+  tmnCode: 94LW3UEC
+  hashSecret: E9HHJMD5Z1LN50UPACXH45UVKRFAKQTT
+  vnpUrl: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
+  returnUrl: http://localhost:3000/NhanVien/payment/vnpay/callback
+  version: 2.1.0
+  command: pay
+  orderType: other
+cloudinary:
+  cloud-name: dmbdj0qeg
+  api-key: 216351684631253
+  api-secret: fRGOb4gsJ63b6t9xM1bWHTYcpFg
 jwt:
   signerKey: 'QQSXWNtiP/T2aZiWnIlOgGCH+Wi2w20a6+ATaueWc5K3dybLoGMuNmAseN8oXGk6' # Key dùng để ký JWT token
+

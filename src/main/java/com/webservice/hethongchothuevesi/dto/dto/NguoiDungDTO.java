@@ -1,11 +1,11 @@
 package com.webservice.hethongchothuevesi.dto.dto;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -14,22 +14,23 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class NguoiDungDTO {
-	private Integer idNguoiDung;
-	private String tenDangNhap;
-	private String matKhau;
-	private String anhDaiDien;
-	private String hoTen;
-	private String gioiTinh;
+    Integer idNguoiDung;
+    String tenDangNhap;
+    String matKhau;
+    String idAnhDaiDien;
+    String anhDaiDien;
+    String hoTen;
+    String gioiTinh;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-	private LocalDate ngaySinh;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    LocalDate ngaySinh;
 
-	private String email;
-	private String soDienThoai;
-	private String soCccd;
-	private String diaChi;
-	private String trangThai;
+    String email;
+    String soDienThoai;
+    String soCccd;
+    String diaChi;
+    String trangThai;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
-	private LocalDateTime ngayXoa;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
+    LocalDateTime ngayXoa;
 }

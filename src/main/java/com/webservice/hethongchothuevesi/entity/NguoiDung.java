@@ -1,12 +1,12 @@
 package com.webservice.hethongchothuevesi.entity;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -17,46 +17,49 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "NguoiDung")
 public class NguoiDung {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idNguoiDung")
-	Integer idNguoiDung;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idNguoiDung")
+    Integer idNguoiDung;
 
-	@Size(min = 6, message = "TENDANGNHAP_INVALID")
-	@Column(name = "tenDangNhap", nullable = false)
-	String tenDangNhap;
+    @Size(min = 6, message = "TENDANGNHAP_INVALID")
+    @Column(name = "tenDangNhap", nullable = false)
+    String tenDangNhap;
 
-	@Size(min = 8, message = "MATKHAU_INVALID")
-	@Column(name = "matKhau", nullable = false)
-	String matKhau;
+    @Size(min = 8, message = "MATKHAU_INVALID")
+    @Column(name = "matKhau", nullable = false)
+    String matKhau;
 
-	@Column(name = "anhDaiDien")
-	String anhDaiDien;
+    @Column(name = "idAnhDaiDien")
+    String idAnhDaiDien;
 
-	@Column(name = "hoTen")
-	String hoTen;
+    @Column(name = "anhDaiDien")
+    String anhDaiDien;
 
-	@Column(name = "gioiTinh")
-	String gioiTinh;
+    @Column(name = "hoTen")
+    String hoTen;
 
-	@Column(name = "ngaySinh")
-	LocalDate ngaySinh;
+    @Column(name = "gioiTinh")
+    String gioiTinh;
 
-	@Column(name = "email")
-	String email;
+    @Column(name = "ngaySinh")
+    LocalDate ngaySinh;
 
-	@Column(name = "soDienThoai")
-	String soDienThoai;
+    @Column(name = "email")
+    String email;
 
-	@Column(name = "soCCCD")
-	String soCccd;
+    @Column(name = "soDienThoai")
+    String soDienThoai;
 
-	@Column(name = "diaChi")
-	String diaChi;
+    @Column(name = "soCCCD")
+    String soCccd;
 
-	@Column(name = "trangThai")
-	String trangThai;
+    @Column(name = "diaChi")
+    String diaChi;
 
-	@Column(name = "ngayXoa")
-	LocalDateTime ngayXoa;
+    @Column(name = "trangThai")
+    String trangThai;
+
+    @Column(name = "ngayXoa")
+    LocalDateTime ngayXoa;
 }
