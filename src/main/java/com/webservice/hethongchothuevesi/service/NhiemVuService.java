@@ -7,7 +7,7 @@ import com.webservice.hethongchothuevesi.dto.response.UpdateResult;
 import com.webservice.hethongchothuevesi.entity.NhiemVu;
 import com.webservice.hethongchothuevesi.exception.ResourceNotFoundException;
 import com.webservice.hethongchothuevesi.mapper.NhiemVuMapper;
-import com.webservice.hethongchothuevesi.respository.NhiemVuRepository;
+import com.webservice.hethongchothuevesi.repository.NhiemVuRepository;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

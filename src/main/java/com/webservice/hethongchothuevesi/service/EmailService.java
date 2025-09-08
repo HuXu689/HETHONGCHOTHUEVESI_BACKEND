@@ -1,7 +1,7 @@
 package com.webservice.hethongchothuevesi.service;
 
 import com.webservice.hethongchothuevesi.entity.OTP;
-import com.webservice.hethongchothuevesi.respository.OTPRepository;
+import com.webservice.hethongchothuevesi.repository.OTPRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;

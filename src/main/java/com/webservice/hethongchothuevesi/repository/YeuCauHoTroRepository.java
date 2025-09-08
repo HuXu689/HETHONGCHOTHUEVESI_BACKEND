@@ -1,4 +1,4 @@
-package com.webservice.hethongchothuevesi.respository;
+package com.webservice.hethongchothuevesi.repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,13 +11,13 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface YeuCauHoTroRepository extends JpaRepository<YeuCauHoTro, Integer> {
-	List<YeuCauHoTro> findByNgayXoaIsNull();
+    List<YeuCauHoTro> findByNgayXoaIsNull();
 
-	Optional<YeuCauHoTro> findByIdYeuCauHoTro(int idYeuCauHoTro);
+    Optional<YeuCauHoTro> findByIdYeuCauHoTro(int idYeuCauHoTro);
 
-	Optional<YeuCauHoTro> findByIdYeuCauHoTroAndNgayXoaIsNull(int idYeuCauHoTro);
+    Optional<YeuCauHoTro> findByIdYeuCauHoTroAndNgayXoaIsNull(int idYeuCauHoTro);
 
-	long countByNgayXoaIsNull();
+    long countByNgayXoaIsNull();
 
-	Page<YeuCauHoTro> findByNgayXoaIsNull(Pageable pageable);
+    Page<YeuCauHoTro> findByNgayXoaIsNull(Pageable pageable);
 }

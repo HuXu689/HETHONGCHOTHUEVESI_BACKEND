@@ -1,4 +1,4 @@
-package com.webservice.hethongchothuevesi.respository;
+package com.webservice.hethongchothuevesi.repository;
 
 import com.webservice.hethongchothuevesi.dto.dto.YeuCauDichVuDTO;
 import com.webservice.hethongchothuevesi.entity.YeuCauDichVu;

@@ -1,4 +1,4 @@
-package com.webservice.hethongchothuevesi.respository;
+package com.webservice.hethongchothuevesi.repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,13 +11,13 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface VeSiKhoaDaoTaoRepository extends JpaRepository<VeSiKhoaDaoTao, Integer> {
-	List<VeSiKhoaDaoTao> findByNgayXoaIsNull();
+    List<VeSiKhoaDaoTao> findByNgayXoaIsNull();
 
-	Optional<VeSiKhoaDaoTao> findByIdVeSiKhoaDaoTao(int idVeSiKhoaDaoTao);
+    Optional<VeSiKhoaDaoTao> findByIdVeSiKhoaDaoTao(int idVeSiKhoaDaoTao);
 
-	Optional<VeSiKhoaDaoTao> findByIdVeSiKhoaDaoTaoAndNgayXoaIsNull(int idVeSiKhoaDaoTao);
+    Optional<VeSiKhoaDaoTao> findByIdVeSiKhoaDaoTaoAndNgayXoaIsNull(int idVeSiKhoaDaoTao);
 
-	long countByNgayXoaIsNull();
+    long countByNgayXoaIsNull();
 
-	Page<VeSiKhoaDaoTao> findByNgayXoaIsNull(Pageable pageable);
+    Page<VeSiKhoaDaoTao> findByNgayXoaIsNull(Pageable pageable);
 }

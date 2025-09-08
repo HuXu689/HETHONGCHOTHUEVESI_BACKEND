@@ -1,4 +1,4 @@
-package com.webservice.hethongchothuevesi.respository;
+package com.webservice.hethongchothuevesi.repository;
 
 import java.util.Optional;
 
@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OTPRepository extends JpaRepository<OTP, Long> {
 
-	// Tìm OTP mới nhất theo email
-	Optional<OTP> findTopByEmailOrderByCreatedAtDesc(String email);
+    // Tìm OTP mới nhất theo email
+    Optional<OTP> findTopByEmailOrderByCreatedAtDesc(String email);
 }

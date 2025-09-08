@@ -1,4 +1,4 @@
-package com.webservice.hethongchothuevesi.respository;
+package com.webservice.hethongchothuevesi.repository;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface NguoiDungVaiTroRepository extends JpaRepository<NguoiDungVaiTro, Integer> {
-	List<NguoiDungVaiTro> findByIdNguoiDung(int idNguoiDung);
+    List<NguoiDungVaiTro> findByIdNguoiDung(int idNguoiDung);
 
-	List<NguoiDungVaiTro> findByIdVaiTro(int idVaiTro);
+    List<NguoiDungVaiTro> findByIdVaiTro(int idVaiTro);
 }
