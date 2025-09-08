@@ -13,8 +13,8 @@ spring:
       client:
         registration:
           google:
-            client-id: ${spring.security.oauth2.client.registration.google.client-id}
-            client-secret: ${spring.security.oauth2.client.registration.google.client-secret}
+            client-id: 1019379455851-ql3lienhckt4aba3rrf91fi4219d4kas.apps.googleusercontent.com
+            client-secret: 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
             redirect-uri: '{baseUrl}/auth/google/callback'
             scope:
               - KhachHang
@@ -28,8 +28,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: ${spring.mail.username}
-    password: ${spring.mail.password}
+    username: bodyguardhethongchothuevesi@gmail.com
+    password: oubaztkfxmcjhjcb
     protocol: smtp
     properties:
       mail:
@@ -45,8 +45,8 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/HETHONGCHOTHUEVESI # URL kết nối MySQL
     #    url: jdbc:mysql://172.17.0.2/HETHONGCHOTHUEVESI  # URL kết nối MySQL
-    username: ${spring.datasource.username}
-    password: ${spring.datasource.password}
+    username: root # Tên người dùng MySQL
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver # Driver cho MySQL
   jpa:
     hibernate:
@@ -58,8 +58,8 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect # Sử dụng MySQL dialect cho Hibernate
     show-sql: true # Hiển thị các câu lệnh SQL trong console
 vnpay:
-  tmnCode: ${vnpay.tmnCode}
-  hashSecret: ${vnpay.hashSecret}
+  tmnCode: 94LW3UEC
+  hashSecret: E9HHJMD5Z1LN50UPACXH45UVKRFAKQTT
   vnpUrl: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
   returnUrl: http://localhost:3000/NhanVien/payment/vnpay/callback
   version: 2.1.0
@@ -67,7 +67,8 @@ vnpay:
   orderType: other
 cloudinary:
   cloud-name: dmbdj0qeg
-  api-key: ${cloudinary.api-key}
-  api-secret: ${cloudinary.api-secret}
+  api-key: 216351684631253
+  api-secret: fRGOb4gsJ63b6t9xM1bWHTYcpFg
 jwt:
-  signerKey: ${jwt.signerKey}
+  signerKey: 'QQSXWNtiP/T2aZiWnIlOgGCH+Wi2w20a6+ATaueWc5K3dybLoGMuNmAseN8oXGk6' # Key dùng để ký JWT token
+
