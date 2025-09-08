@@ -1,3 +1,2 @@
 # Ignore secrets.yaml file
 src/main/resources/secrets.yaml
-
