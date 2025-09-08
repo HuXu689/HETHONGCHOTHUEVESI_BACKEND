@@ -64,7 +64,7 @@ public class NguoiDungController {
     }
 
     @PutMapping("/ChangePassword/{id}")
-    //    @PreAuthorize("hasRole('Admin') or #id == authentication.principal.id")
+//        @PreAuthorize("hasRole('Admin') or #id == authentication.principal.id")
     public boolean changePassword(
             @PathVariable("id") int id, @RequestBody @Valid NguoiDungChangePasswordRequest request) {
         return NguoiDungService.changePasswordRequest(id, request);
